@@ -27,8 +27,23 @@ atomExpr returns [ExprArith value] :
   | '(' e1 = additionExpr ')' {$value = $e1.value;}
   | '-' e2 = atomExpr {$value = new Inv($e2.value);} ;
 
+// T is a type
+T : (Number | Boolean | Array);
+
 // A number is an integer value
 Number : ('0'..'9')+ ;
+
+// Variable
+x : [a-z]+;
+
+//Boolean is a string : true or false
+Boolean : ('true' | 'false');
+
+//Array of T
+Array : 'array' 'of' T; 
+
+//k is a constant
+k : Number | 'true' | 'false;
 
 // We're going to ignore all white space characters
 WS : [ \t\r\n]+ -> skip ;
