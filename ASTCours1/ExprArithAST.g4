@@ -43,7 +43,7 @@ Boolean : ('true' | 'false');
 Array : 'array' 'of' T; 
 
 //k is a constant
-k : Number | 'true' | 'false;
+k : Number | Boolean;
 
   //We're going to ignore all white space characters
 WS : [ \t\r\n]+ -> skip ;
