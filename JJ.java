@@ -3,15 +3,15 @@
 // JJ.java  //
 
 
-abstract class ExprArith {
+abstract class ExprArith {	//For all the int expressions
 
-    abstract int eval ();
+    abstract int eval ();	//Int evaluation
 
 }//ExprArith
 
-abstract class ExprBool {
+abstract class ExprBool {	//For all the boolean expressions
 
-    abstract boolean eval ();
+    abstract boolean eval ();	//Boolean evaluation
 
 }//ExprBool
 
