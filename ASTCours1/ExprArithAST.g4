@@ -45,5 +45,5 @@ Array : 'array' 'of' T;
 //k is a constant
 k : Number | 'true' | 'false;
 
-//We're going to ignore all white space characters
+  //We're going to ignore all white space characters
 WS : [ \t\r\n]+ -> skip ;
