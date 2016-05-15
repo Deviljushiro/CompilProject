@@ -5,6 +5,7 @@ grammar ExprArith;
 // This will be the entry point of our parser.
 expr : additionExpr ;
 
+
 // Addition and subtraction have the lowest precedence.
 additionExpr : multiplyExpr ('+' multiplyExpr | '-' multiplyExpr)* ;
 
