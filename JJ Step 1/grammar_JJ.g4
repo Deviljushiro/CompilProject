@@ -5,7 +5,7 @@ grammar grammar_JJ;
 e : (k | x | numExpr | boolExpr | appelExpr | eeExpr | arrayExpr);
 
 //Instructions
-i : (x:=e | eeExpr:=e | 'if' e 'then' e 'else' e | 'while' e 'do' i | appelExpr | i ';' i);
+i : (x ':=' e | eeExpr ':=' e | 'if' e 'then' e 'else' e | 'while' e 'do' i | appelExpr | i ';' i);
 
 //Functions
 d : 'f((' x ':' T ')*)' '[:' T ']' 'var' '(' x ':' T ')*' i;
