@@ -1,5 +1,5 @@
 
-grammar grammar_JJ;
+grammar JJ_ANTLR;
 
 
 
@@ -10,19 +10,19 @@ grammar grammar_JJ;
 /////////////THINGS THAT WE WANT TO IMPLEMENT//////////////////
 //////////////////////////////////////////////////////////////
 
-//type is a type
+//type is the string of the different types implemented in this language
 type: ('integer' | 'boolean' | 'array' 'of' type);
 
-// Differentypekinds of expression
+// Different kinds of expression
 e : ( k | X | additionExpr | boolExpr | appelExpr | arrayExpr);
 
-//Instructions
+//Instructions including expressions
 i : (X':=' e | eeExpr ':=' e | 'if' e 'then' e 'else' e | 'while' e 'do' i | appelExpr);
 
-//Functions
+//Functions including instructions
 d : 'f(' ( X ':' type)* ')' '[:' type']' 'var' ( X ':' type )* i;
 
-//Programs
+//Programs including functions
 p : 'var' ( X ':' type )* d* i;
 
 
@@ -34,13 +34,13 @@ p : 'var' ( X ':' type )* d* i;
 /////////////////////////////////////////////////////////////
 
 
-// Addition and subtraction have the lowestypeprecedence.
+// Addition and subtraction have the lowest precedence.
 additionExpr : multiplyExpr ('+' multiplyExpr | '-' multiplyExpr)* ;
 
 // Multiplication and division have a higher precedence.
 multiplyExpr : atomExpr ('*' atomExpr | '/' atomExpr)* ;
 
-//Numeric and unary operations
+//Numeric and unary operations with the main precedence
 atomExpr : Number | '(' additionExpr ')' | '-' atomExpr ;
 
 
@@ -52,14 +52,14 @@ atomExpr : Number | '(' additionExpr ')' | '-' atomExpr ;
 ////////////////////////////////////////////////////////////
 
 
-// Expressions with 'and' and 'or' of binarExpr
-combinatedBinarExpr : (binarExpr | boolExpr) ('and' (binarExpr | boolExpr) | 'or' (binarExpr | boolExpr) ) * ;
+// Compare 2 boolean expressions with 'and' and 'or' with the lowest precedence
+combinatedcompareExpr : (compareExpr | boolExpr) ('and' (compareExpr | boolExpr) | 'or' (compareExpr | boolExpr) ) * ;
 
-// Boolean request
-binarExpr : atomExpr ('>' atomExpr | '>=' atomExpr | '<' atomExpr | '<=' atomExpr | '=' atomExpr | '!=' atomExpr) *;
+// Compare 2 numeric expression and return boolean with a higher precedence
+compareExpr : atomExpr ('>' atomExpr | '>=' atomExpr | '<' atomExpr | '<=' atomExpr | '=' atomExpr | '!=' atomExpr) *;
 
-// Simple expression with boolean
-boolExpr : Boolean | '(' combinatedBinarExpr ')' | binarExpr | 'not' boolExpr ;
+// Simple expression with boolean with the main precedence
+boolExpr : Boolean | '(' combinatedcompareExpr ')' | compareExpr | 'not' boolExpr ;
 
 
 
@@ -86,7 +86,7 @@ eeExpr : e '[' e ']' ;
 
 
 //Call function read, write or defined function with f rule
-appelExpr : ('read' | 'write' | 'f') ('(' e ')') * ;
+appelExpr : ( 'read' | 'write' | 'f' ) ( '(' e ')' )* ;
 
 
 
@@ -97,16 +97,16 @@ appelExpr : ('read' | 'write' | 'f') ('(' e ')') * ;
 //////////////////////////////////////////////////////////
 
 
-// A number is an integer value
+//Number is an integer value
 Number : ('0'..'9')+ ;
 
 //Boolean is a string : true or false
 Boolean : ( 'true' | 'false' ) ;
 
-//Variable
+//Variable is a combination of characters
 X : [a-z]+ ; 
 
-//Constant
+//Constant is number or boolean only
 k : (Number | Boolean);  
 
        
