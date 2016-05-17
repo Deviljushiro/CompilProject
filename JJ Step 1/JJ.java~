@@ -76,9 +76,9 @@ class Opp extends boolExpr {
 
     boolExpr e;
 
-    Opp (boolExpr e) {
+     (boolExpr e) {
         this.e = e;
-    }//Opp
+    }//Inv
 
     boolean eval () {
         return !e.eval();   //return not(bool)
