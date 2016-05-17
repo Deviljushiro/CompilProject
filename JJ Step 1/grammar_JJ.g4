@@ -1,9 +1,17 @@
 grammar grammar_JJ;
 
 
-// Diferent kinds of expression
-e : (k | x | numExpr | boolExpr | numExpr | appelExpr | eeExpr | arrayExpr);
+// Different kinds of expression
+e : (k | x | numExpr | boolExpr | appelExpr | eeExpr | arrayExpr);
 
+//Instructions
+i : (x=e | eeExpr=e | 'if' e 'then' e 'else' e | 'while' e 'do' i | appelExpr | skip | i ';' i);
+
+//Functions
+d : 'f((' x ':' T ')*)' '[:' T ']' 'var' '(' x ':' T ')*' i;
+
+//Programs
+p : 'var(' x ':' T ')*' d'*' i;
 
 // Expressions with 'and' and 'or' of binarExpr
 combinatedBinarExpr : binarExpr ('and' binarExpr | 'or' binarExpr ) * ;
@@ -30,6 +38,7 @@ appelExpr : ('read' | 'write' | 'f') ('(' e ')') * ;
 eeExpr : e '[' e ']' ;
 
 arrayExpr : 'new' Array '[' e ']' ;
+
 
 
 
