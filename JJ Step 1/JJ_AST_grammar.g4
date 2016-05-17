@@ -1,6 +1,6 @@
-// ExprArithAST.g4
 
-grammar ExprArithAST;
+
+grammar JJ_AST_grammar;
 
 // This will be the entry point of our parser.
 expr returns [ExprArith value] :

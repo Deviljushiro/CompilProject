@@ -1,6 +1,6 @@
 
 
-// JJ.java  //
+// JJ_AST.java  //
 
 
 abstract class numExpr {	//For all the int expressions
