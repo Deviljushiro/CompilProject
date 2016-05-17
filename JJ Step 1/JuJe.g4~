@@ -1,0 +1,52 @@
+grammar JuJe;
+
+
+
+// Different kinds of expression
+e : (k | ID | UOP | BOP | appelExpr | e '[' e ']' | arrayExpr);
+
+//Instructions
+i : (ID ':=' e | 'if' e 'then' e 'else' e | 'while' e 'do' i | appelExpr );
+
+//Functions
+d : 'f((' ID ':' T ')*)' '[:' T ']' 'var' '(' ID ':' T ')*' i;
+
+//Programs
+p : 'var(' ID ':' T ')*' d'*' i;
+
+//Unary
+UOP : '-' Number | 'not' Boolean ;
+
+//Binary
+BOP : Number ( '+' Number | '-' Number | '*' Number | '/' Number | '<' Number | '<=' Number | '==' Number | '!=' Number | '>' Number | '>=' Number ) 
+| Boolean ( 'and' Boolean | 'or' Boolean );
+
+
+appelExpr : ('read' | 'write' | 'f') ('(' e ')') * ;
+
+arrayExpr : 'new' Array '[' e ']' ;
+
+
+
+
+// T is a type
+T : (Number | Boolean | Array);
+
+//k is a constant
+k : (Number | Boolean);
+
+//A number is an integer value
+Number : [0-9]+ ;
+
+//Variable
+ID : [a-z]+ ;             // match lower-case identifiers
+
+
+//Boolean is a string : true or false
+Boolean : ('true' | 'false');
+
+//Array of T
+Array : 'array' 'of' T; 
+
+// We're going to ignore all white space characters
+WS : [ \t\r\n]+ -> skip ;
