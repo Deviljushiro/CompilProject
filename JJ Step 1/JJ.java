@@ -3,17 +3,17 @@
 // JJ.java  //
 
 
-abstract class ExprArith {	//For all the int expressions
+abstract class numExpr {	//For all the int expressions
 
     abstract int eval ();	//Int evaluation
 
-}//ExprArith
+}//numExpr
 
-abstract class ExprBool {	//For all the boolean expressions
+abstract class boolExpr {	//For all the boolean expressions
 
     abstract boolean eval ();	//Boolean evaluation
 
-}//ExprBool
+}//boolExpr
 
 
 
@@ -21,7 +21,7 @@ abstract class ExprBool {	//For all the boolean expressions
 ///////////CONSTANT///////////////////
 /////////////////////////////////////
 
-class Int extends ExprArith {
+class Int extends numExpr {
 
     int val;
 
@@ -35,7 +35,7 @@ class Int extends ExprArith {
 
 }//Cte
 
-class Bool extends ExprBool {
+class Bool extends boolExpr {
 
     boolean val;
 
@@ -54,11 +54,11 @@ class Bool extends ExprBool {
 /////////UNARY OP ON INT//////////
 /////////////////////////////////
 
-class Inv extends ExprArith {
+class Inv extends numExpr {
 
-    ExprArith e;
+    numExpr e;
 
-    Inv (ExprArith e) {
+    Inv (numExpr e) {
         this.e = e;
     }//Inv
 
@@ -72,11 +72,13 @@ class Inv extends ExprArith {
 /////////UNARY OP ON BOOL//////////
 //////////////////////////////////
 
-class Opp extends ExprBool {
+class Opp extends boolExpr {
 
-    ExprBool e;
+    boolExpr
+ e;
 
-     (ExprBool e) {
+     (boolExpr
+     e) {
         this.e = e;
     }//Inv
 
@@ -92,21 +94,22 @@ class Opp extends ExprBool {
 ///////////////////////////////////////////
 
 
-abstract class IntToInt extends ExprArith {
+abstract class IntToInt extends numExpr {
 
-    ExprArith e1, e2;
+    numExpr e1, e2;
 
 }//IntToInt
 
-abstract class IntToBool extends ExprBool {
+abstract class IntToBool extends boolExpr {
 
-    ExprArith e1, e2;
+    numExpr e1, e2;
 
 }//IntToBool
 
-abstract class BoolToBool extends ExprBool {
+abstract class BoolToBool extends boolExpr {
 
-    ExprBool e1, e2;
+    boolExpr
+ e1, e2;
 
 }//BoolToBool
 
@@ -118,7 +121,7 @@ abstract class BoolToBool extends ExprBool {
 
 class Add extends IntToInt {
 
-    Add (ExprArith e1, ExprArith e2) {
+    Add (numExpr e1, numExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Add
@@ -131,7 +134,7 @@ class Add extends IntToInt {
 
 class Sub extends IntToInt {
 
-    Sub (ExprArith e1, ExprArith e2) {
+    Sub (numExpr e1, numExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Sub
@@ -144,7 +147,7 @@ class Sub extends IntToInt {
 
 class Mul extends IntToInt {
 
-    Mul (ExprArith e1, ExprArith e2) {
+    Mul (numExpr e1, numExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Mul
@@ -157,7 +160,7 @@ class Mul extends IntToInt {
 
 class Div extends IntToInt {
 
-    Div (ExprArith e1, ExprArith e2) {
+    Div (numExpr e1, numExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Div
@@ -174,7 +177,7 @@ class Div extends IntToInt {
 
 class Blt extends IntToBool {
 
-    Blt (ExprArith e1, ExprArith e2) {
+    Blt (numExpr e1, numExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Blt
@@ -187,7 +190,7 @@ class Blt extends IntToBool {
 
 class Ble extends IntToBool {
 
-    Ble (ExprArith e1, ExprArith e2) {
+    Ble (numExpr e1, numExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Ble
@@ -200,7 +203,7 @@ class Ble extends IntToBool {
 
 class Eq extends IntToBool {
 
-    Eq (ExprArith e1, ExprArith e2) {
+    Eq (numExpr e1, numExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Eq
@@ -213,7 +216,7 @@ class Eq extends IntToBool {
 
 class Dif extends IntToBool {
 
-    Dif (ExprArith e1, ExprArith e2) {
+    Dif (numExpr e1, numExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Dif
@@ -226,7 +229,7 @@ class Dif extends IntToBool {
 
 class Bgt extends IntToBool {
 
-    Bgt (ExprArith e1, ExprArith e2) {
+    Bgt (numExpr e1, numExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Bgt
@@ -239,7 +242,7 @@ class Bgt extends IntToBool {
 
 class Bge extends IntToBool {
 
-    Bge (ExprArith e1, ExprArith e2) {
+    Bge (numExpr e1, numExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Bge
@@ -257,7 +260,7 @@ class Bge extends IntToBool {
 
 class And extends BoolToBool {
 
-    And (ExprBool e1, ExprBool e2) {
+    And (boolExpr e1, boolExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//And
@@ -270,7 +273,7 @@ class And extends BoolToBool {
 
 class Or extends BoolToBool {
 
-    Or (ExprBool e1, ExprBool e2) {
+    Or (boolExpr e1, boolExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }//Or
