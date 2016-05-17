@@ -2,7 +2,7 @@ grammar grammar_JJ;
 
 
 // Diferent kinds of expression
-expr : (k | x | numExpr | boolExpr | numExpr | appelExpr | eeExpr | arrayExpr);
+e : (k | x | numExpr | boolExpr | numExpr | appelExpr | eeExpr | arrayExpr);
 
 
 // Expressions with 'and' and 'or' of binarExpr
@@ -25,11 +25,11 @@ multiplyExpr : numExpr ('*' numExpr | '/' numExpr ) * ;
 numExpr : Number | '(' additionExpr ')' | '-' numExpr ;
 
 
-appelExpr : ('read' | 'write' | 'f') ('(' expr ')') * ;
+appelExpr : ('read' | 'write' | 'f') ('(' e ')') * ;
 
-eeExpr : expr '[' expr ']' ;
+eeExpr : e '[' e ']' ;
 
-arrayExpr : 'new' Array '[' expr ']' ;
+arrayExpr : 'new' Array '[' e ']' ;
 
 
 
