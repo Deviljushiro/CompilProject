@@ -510,9 +510,11 @@ class PPSeq extends PPInst {
     }//PPSeq
 
     /*toUPP returning a program call in UPP*/
-    UPPSeq toUPP(ArrayList<String> locals){
-
-    }
+    UPPInst toUPP(ArrayList<String> locals){
+        UPPInst ni1 = i1.toUPP(locals);
+        UPPInst ni2 = i2.toUPP(locals);
+        return new UPPSeq(ni1,ni2);
+    }//toUPP
 
 
 
@@ -543,23 +545,6 @@ abstract class PPDef {
     String name;
     ArrayList<Pair<String,Type>> args, locals;
     PPInst code;
-    /*toUPP returning a procedure in UPP*/
-    UPPDef toUPP(){
-        ArrayList<String> nargs = new ArrayList<String>();
-        ArrayList<String> nlocals = new ArrayList<String>();
-        ArrayList<String> nall = new ArrayList<String>();
-        UPPInst ncode;
-        for(Pair<String,Type> a : args){
-            nargs.add(a.left());
-            nall.add(a.left());
-        }
-        for(Pair<String,Type> e : locals){
-            nlocals.add(e.left());
-            nall.add(e.left());
-        }
-        ncode = code.toUPP(nall);
-        return new UPPDef(name, nargs, nlocals, ncode);
-    }//toUPP
 
 }//PPDef
 
@@ -581,9 +566,21 @@ class PPFun extends PPDef {
     }//PPFun
 
     /*toUPP returning a procedure in UPP*/
-    UPPFun toUPP(){
-
-
+    UPPDef toUPP(){
+        ArrayList<String> nargs = new ArrayList<String>();
+        ArrayList<String> nlocals = new ArrayList<String>();
+        ArrayList<String> nall = new ArrayList<String>();
+        UPPInst ncode;
+        for(Pair<String,Type> a : args){
+            nargs.add(a.left());
+            nall.add(a.left());
+        }
+        for(Pair<String,Type> e : locals){
+            nlocals.add(e.left());
+            nall.add(e.left());
+        }
+        ncode = code.toUPP(nall);
+        return new UPPFun(name, nargs, nlocals, ncode);
     }//toUPP
 
 }//PPFun
