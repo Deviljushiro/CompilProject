@@ -564,7 +564,7 @@ class PPProc extends PPDef {
 	}
         UPPInst ncode = code.toUPP(nall);
         return UPPProc(name,nargs,nlocals,ncode);
-    }//toUPP
+    }
 
 }//PPProc
 
