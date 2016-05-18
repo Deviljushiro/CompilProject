@@ -43,7 +43,7 @@ class PPCte extends PPExpr {
 
     /*toUPP returning constant in UPP*/
     UPPExpr toUPP (ArrayList<String> locals) {	
-	return new UPPCte(val);
+	   return new UPPCte(val);
     }//toUPP
 
 }//PPCte
@@ -52,7 +52,7 @@ class PPTrue extends PPExpr {
 
     /*toUPP returning true in UPP*/
     UPPExpr toUPP (ArrayList<String> locals) {	
-	return new UPPTrue();
+	   return new UPPTrue();
     }//toUPP	
 
 }//PPTrue
@@ -61,7 +61,7 @@ class PPFalse extends PPExpr {
 
     /*toUPP returning false in UPP*/
     UPPExpr toUPP (ArrayList<String> locals) {	
-	return new UPPFalse();
+	   return new UPPFalse();
     }//toUPP
 
 }//PPFalse
@@ -76,11 +76,11 @@ class PPVar extends PPExpr {
 
     /*toUPP returning local or global variable in UPP*/
     UPPExpr toUPP (ArrayList<String> locals) {
-	if locals.contains(name) {	
-	    return new UPPVar(name); //If the variable is local (in locals array)
+    	if locals.contains(name) {	
+    	    return new UPPVar(name); //If the variable is local (in locals array)
         }
         else {
-	    return new UPPGVar(name); //Else the variable is global
+	        return new UPPGVar(name); //Else the variable is global
         }
     }//toUPP
 
@@ -101,7 +101,7 @@ class PPInv extends PPUnOp {
     /*toUPP returning inversion in UPP*/
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne = e.toUPP(locals); //Convert the PP value in UPP value
-	return new UPPSub(new UPPCte(0),ne); //substract the UPP expr to 0
+	    return new UPPSub(new UPPCte(0),ne); //substract the UPP expr to 0
     }//toUPP
 
 }//PPInv
@@ -136,7 +136,7 @@ class PPAdd extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPAdd(ne1,ne2);
+	    return new UPPAdd(ne1,ne2);
     }//toUPP
 
 }//PPAd
@@ -152,7 +152,7 @@ class PPSub extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPSub(ne1,ne2);
+	    return new UPPSub(ne1,ne2);
     }//toUPP
 
 }//PPSub
@@ -168,7 +168,7 @@ class PPMul extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPMul(ne1,ne2);
+	    return new UPPMul(ne1,ne2);
     }//toUPP
 
 }//PPMul
@@ -184,7 +184,7 @@ class PPDiv extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPDiv(ne1,ne2);
+	    return new UPPDiv(ne1,ne2);
     }//toUPP
 
 }//PPDiv
@@ -200,7 +200,7 @@ class PPAnd extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPAnd(ne1,ne2);
+	    return new UPPAnd(ne1,ne2);
     }//toUPP
 
 }//PPAnd
@@ -216,7 +216,7 @@ class PPOr extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPOr(ne1,ne2);
+	    return new UPPOr(ne1,ne2);
     }//toUPP
 
 }//PPOr
@@ -232,7 +232,7 @@ class PPLe extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPLe(ne1,ne2);
+	    return new UPPLe(ne1,ne2);
     }//toUPP
 
 }//PPLe
@@ -248,7 +248,7 @@ class PPLeq extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPLeq(ne1,ne2);
+	    return new UPPLeq(ne1,ne2);
     }//toUPP
 
 }//PPLeq
@@ -264,7 +264,7 @@ class PPEq extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPEq(ne1,ne2);
+	    return new UPPEq(ne1,ne2);
     }//toUPP
 
 }//PPEq
@@ -280,7 +280,7 @@ class PPNeq extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPNeq(ne1,ne2);
+	    return new UPPNeq(ne1,ne2);
     }//toUPP
 
 }//PPNeq
@@ -296,7 +296,7 @@ class PPGeq extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPGe(ne1,ne2);
+	    return new UPPGe(ne1,ne2);
     }//toUPP
 
 }//PPGeq
@@ -312,7 +312,7 @@ class PPGe extends PPBinOp {
     UPPExpr toUPP (ArrayList<String> locals) {	
         UPPExpr ne1 = e1.toUPP(locals); //Convert the PP expr in UPP expr
         UPPExpr ne2 = e2.toUPP(locals);
-	return new UPPGeq(ne1,ne2);
+	    return new UPPGeq(ne1,ne2);
     }//toUPP
 
 }//PPGe
@@ -346,8 +346,9 @@ class PPFunCall extends PPExpr {
     /*toUPP returnin a function call in UPP*/
     UPPExpr toUPP(ArrayList<String> locals){
         ArrayList<UPPExpr> nargs = new ArrayList<UPPExpr>();
-	for (PPExpr e : args)
-		nargs.add(e.toUPP(locals));
+	    for (PPExpr e : args){
+		  nargs.add(e.toUPP(locals));
+        }
         return new UPPFunCall(callee,nargs);
     }//FunCall
 
@@ -367,7 +368,7 @@ class PPArrayGet extends PPExpr {
         UPPExpr narr = arr.toUPP(locals); //Convert the PP var in UPP var
         UPPExpr nindex = index.toUPP(locals);
         UPPExpr offset = new UPPMul(new UPPCte(4),nindex);
-	return new UPPLoad(new UPPAdd(narr,offset));
+	    return new UPPLoad(new UPPAdd(narr,offset));
     }//toUPP
 
 }//PPArrayGet
@@ -384,11 +385,11 @@ class PPArrayAlloc extends PPExpr {
     
     /*toUPP returning an allocation in UPP*/
     UPPExpr toUPP(ArrayList<String> locals){
-	UPPExpr nsize = size.toUPP(locals);
-	UPPExpr sizeBytes = new UPPMul(new UPPCte(4), nsize);
-	ArrayList<UPPExpr> args = new ArrayList<UPPExpr>();
-	args.add(sizeBytes);
-	return new UPPFunCall(new Alloc(), args);
+    	UPPExpr nsize = size.toUPP(locals);
+    	UPPExpr sizeBytes = new UPPMul(new UPPCte(4), nsize);
+    	ArrayList<UPPExpr> args = new ArrayList<UPPExpr>();
+    	args.add(sizeBytes);
+    	return new UPPFunCall(new Alloc(), args);
     }//toUPP
 
 }//PPArrayAlloc
@@ -411,8 +412,8 @@ class PPAssign extends PPInst {
     
     /*toUPP returning assignation in UPP*/
     UPPInst toUPP (ArrayList<String> locals){
-	UPPExpr nval = val.toUPP(locals);
-	return new UPPAssign(nval,name);
+    	UPPExpr nval = val.toUPP(locals);
+    	return new UPPAssign(nval,name);
    }//toUPP
 
 }//PPAssign
@@ -433,7 +434,7 @@ class PPArraySet extends PPInst {
         UPPExpr nindex = index.toUPP(locals);
         UPPExpr nval = val.toUPP(locals);
         UPPExpr offset = new UPPMul(new UPPCte(4),nindex);
-	return new UPPStore(new UPPAdd(narr,offset),nval);
+	    return new UPPStore(new UPPAdd(narr,offset),nval);
     }//toUPP
 
 }//PPArraySet
@@ -454,7 +455,7 @@ class PPCond extends PPInst {
         UPPExpr ncond = cond.toUPP(locals); //Convert the PP values in UPP values
         UPPInst ni1 = i1.toUPP(locals);
         UPPInst ni2 = i2.toUPP(locals);
-	return new UPPCond(ncond,ni1,ni2);
+	    return new UPPCond(ncond,ni1,ni2);
     }//toUPP
 
 }//PPCond
@@ -473,7 +474,7 @@ class PPWhile extends PPInst {
     UPPInst toUPP (ArrayList<String> locals) {	
         UPPExpr ncond = cond.toUPP(locals); //Convert the PP values in UPP values
         UPPInst ni = i.toUPP(locals);
-	return new UPPWhile(ncond,ni);
+	    return new UPPWhile(ncond,ni);
     }//toUPP
 
 }//PPWhile
@@ -491,8 +492,9 @@ class PPProcCall extends PPInst {
     /*toUPP returning a program call in UPP*/
     UPPInst toUPP(ArrayList<String> locals){
         ArrayList<UPPInst> nargs = new ArrayList<UPPInst>();
-	for (PPInst e : args)
-		nargs.add(e.toUPP(locals));
+	    for (PPInst e : args){
+		    nargs.add(e.toUPP(locals));
+        }
         return new UPPProcCall(callee,nargs);
     }//toUPP
 
