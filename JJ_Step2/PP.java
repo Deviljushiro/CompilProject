@@ -381,6 +381,15 @@ class PPArrayAlloc extends PPExpr {
         this.type = type;
         this.size = size;
     }//PPArrayAlloc
+    
+    /*toUPP returning an allocation in UPP*/
+    UPPExpr toUPP(ArrayList<String> locals){
+	UPPExpr nsize = size.toUPP(locals);
+	UPPExpr sizeBytes = new UPPMul(new UPPCte(4), nsize);
+	ArrayList<UPPExpr> args = new ArrayList<UPPExpr>();
+	args.add(sizeBytes);
+	return new UPPFunCall(new Alloc(), args);
+    }//toUPP
 
 }//PPArrayAlloc
 
@@ -399,6 +408,12 @@ class PPAssign extends PPInst {
         this.name = name;
         this.val = val;
     }//PPAssign
+    
+    /*toUPP returning assignation in UPP*/
+    UPPInst toUPP (ArrayList<String> locals){
+	UPPExpr nval = val.toUPP(locals);
+	return new UPPAssign(nval,name);
+   }//toUPP
 
 }//PPAssign
 
@@ -536,13 +551,6 @@ class PPFun extends PPDef {
         this.code = code;
         this.ret = ret;
     }//PPFun
-
-    /*toUPP returning function in UPP*/
-    UPPDef toUPP () {	
-        UPPExpr ncond = cond.toUPP(locals); //Convert the PP values in UPP values
-        UPPInst ni = i.toUPP(locals);
-	return new UPPWhile(ncond,ni);
-    }//toUPP
 
 }//PPFun
 
