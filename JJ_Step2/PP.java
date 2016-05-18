@@ -61,7 +61,7 @@ class PPFalse extends PPExpr {
 
     /*toUPP returning false in UPP*/
     UPPExpr toUPP (ArrayList<String> locals) {	
-	return new UPPFalse(val);
+	return new UPPFalse();
     }//toUPP
 
 }//PPFalse
@@ -509,6 +509,13 @@ class PPSeq extends PPInst {
         this.i2 = i2;
     }//PPSeq
 
+    /*toUPP returning a program call in UPP*/
+    UPPSeq toUPP(ArrayList<String> locals){
+
+    }
+
+
+
 }//PPSeq
 
 /***************************************/
@@ -536,8 +543,29 @@ abstract class PPDef {
     String name;
     ArrayList<Pair<String,Type>> args, locals;
     PPInst code;
+    /*toUPP returning a procedure in UPP*/
+    UPPDef toUPP(){
+        ArrayList<String> nargs = new ArrayList<String>();
+        ArrayList<String> nlocals = new ArrayList<String>();
+        ArrayList<String> nall = new ArrayList<String>();
+        UPPInst ncode;
+        for(Pair<String,Type> a : args){
+            nargs.add(a.left());
+            nall.add(a.left());
+        }
+        for(Pair<String,Type> e : locals){
+            nlocals.add(e.left());
+            nall.add(e.left());
+        }
+        ncode = code.toUPP(nall);
+        return new UPPDef(name, nargs, nlocals, ncode);
+    }//toUPP
 
 }//PPDef
+
+
+
+
 
 class PPFun extends PPDef {
 
@@ -551,6 +579,12 @@ class PPFun extends PPDef {
         this.code = code;
         this.ret = ret;
     }//PPFun
+
+    /*toUPP returning a procedure in UPP*/
+    UPPFun toUPP(){
+
+
+    }//toUPP
 
 }//PPFun
 
@@ -566,18 +600,18 @@ class PPProc extends PPDef {
 
     /*toUPP returning a procedure in UPP*/
     UPPDef toUPP(){
-	ArrayList<String> nargs=new ArrayList<String>();
-	ArrayList<String> nlocals=new ArrayList<String>();
-	ArrayList<String> nall=new ArrayList<String>();
-	UPPInst ncode;
-	for(Pair<String,Type> a : args){
-		nargs.add(a.left());
-		nall.add(a.left());
-	}
-	for(Pair<String,Type> e : locals){
-		nlocals.add(e.left());
-		nall.add(e.left());
-	}
+    	ArrayList<String> nargs=new ArrayList<String>();
+    	ArrayList<String> nlocals=new ArrayList<String>();
+    	ArrayList<String> nall=new ArrayList<String>();
+    	UPPInst ncode;
+    	for(Pair<String,Type> a : args){
+    		nargs.add(a.left());
+    		nall.add(a.left());
+    	}
+    	for(Pair<String,Type> e : locals){
+    		nlocals.add(e.left());
+    		nall.add(e.left());
+    	}
         UPPInst ncode = code.toUPP(nall);
         return UPPProc(name,nargs,nlocals,ncode);
     }//toUPP
@@ -600,5 +634,20 @@ class PPProg {
         this.defs = defs;
         this.code = code;
     }//PPProg
+
+    /*toUPP returning a procedure in UPP*/
+    UPPProg toUPP(){
+        ArrayList<String> nglobals = new ArrayList<String>();
+        ArrayList<UPPDef> ndefs = new ArrayList<UPPDef>();
+        UPPInst ncode;
+        for(Pair<String,Type> e : locals){
+            nglobals.add(e.left);
+        }
+        for (PPDef e : defs){
+            ndefs.add(e.toUPP());
+        }
+        ncode = code.toUPP(new ArrayList<String>());
+        return new UPPProg(nglobals,ndefs,ncode); 
+    }//toUPP
 
 }//PPProg
