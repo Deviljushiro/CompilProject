@@ -209,7 +209,7 @@ class PPMul extends PPBinOp {
     }//toUPP
 
     String toString(){
-        return e1.toString() + "x" + e2.toString() ;
+        return e1.toString() + "*" + e2.toString() ;
     }//toString
 
 }//PPMul
