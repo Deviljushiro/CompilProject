@@ -91,7 +91,7 @@ class PPVar extends PPExpr {
 
     /*toUPP returning local or global variable in UPP*/
     UPPExpr toUPP (ArrayList<String> locals) {
-    	if locals.contains(name) {	
+    	if (locals.contains(name)) {
     	    return new UPPVar(name); //If the variable is local (in locals array)
         }
         else {
@@ -124,7 +124,7 @@ class PPInv extends PPUnOp {
     }//toUPP
 
     String toString(){
-        return "-(" + e.toString() + ")";
+        return "-("+e.toString()+")";
     }//toString
 
 
@@ -143,7 +143,7 @@ class PPNot extends PPUnOp {
     }//toUPP
 
     String toString(){
-        return "not(" + e.toString() + ")" ;
+        return "not("+e.toString()+")";
     }//toString
 
 }//PPNot
@@ -169,7 +169,7 @@ class PPAdd extends PPBinOp {
     }//toUPP
 
     String toString(){
-        return e1.toString() + "+" + e2.toString() ;
+        return e1.toString()+"+"+e2.toString();
     }//toString
 
 }//PPAd
@@ -249,7 +249,7 @@ class PPAnd extends PPBinOp {
     }//toUPP
 
     String toString(){
-        return "(" e1.toString() + ") and (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") and (" + e2.toString() + ")" ;
     }//toString
 
 }//PPAnd
@@ -269,7 +269,7 @@ class PPOr extends PPBinOp {
     }//toUPP
 
     String toString(){
-        return "(" e1.toString() + ") or (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") or (" + e2.toString() + ")" ;
     }//toString
 
 }//PPOr
@@ -289,7 +289,7 @@ class PPLe extends PPBinOp {
     }//toUPP
 
     String toString(){
-        return "(" e1.toString() + ") < (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") < (" + e2.toString() + ")" ;
     }//toString
 
 }//PPLe
@@ -309,7 +309,7 @@ class PPLeq extends PPBinOp {
     }//toUPP
 
     String toString(){
-        return "(" e1.toString() + ") <= (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") <= (" + e2.toString() + ")" ;
     }//toString
 
 }//PPLeq
@@ -329,7 +329,7 @@ class PPEq extends PPBinOp {
     }//toUPP
 
     String toString(){
-        return "(" e1.toString() + ") == (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") == (" + e2.toString() + ")" ;
     }//toString
 
 }//PPEq
@@ -349,7 +349,7 @@ class PPNeq extends PPBinOp {
     }//toUPP
 
     String toString(){
-        return "(" e1.toString() + ") != (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") != (" + e2.toString() + ")" ;
     }//toString
 
 }//PPNeq
@@ -369,7 +369,7 @@ class PPGeq extends PPBinOp {
     }//toUPP
 
     String toString(){
-        return "(" e1.toString() + ") >= (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") >= (" + e2.toString() + ")" ;
     }//toString
 
 }//PPGeq
@@ -389,25 +389,31 @@ class PPGe extends PPBinOp {
     }//toUPP
 
     String toString(){
-        return "(" e1.toString() + ") > (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") > (" + e2.toString() + ")" ;
     }//toString
 
 }//PPGe
 
 abstract class Callee {
+    
     abstract String toString();
+    
 }//Callee
 
 class Read extends Callee {
+    
     String toString(){
         return "Read";
     };//toString
+    
 }//Read
 
 class Write extends Callee {
+    
     String toString(){
         return "Write";
     };//toString
+    
 }//Write
 
 class User extends Callee {
@@ -501,7 +507,14 @@ class PPArrayAlloc extends PPExpr {
 /* Instructions */
 /****************/
 
-abstract class PPInst {}//PPInst
+abstract class PPInst {
+
+    /*Add the abstract function to change the PP into UPP*/
+    abstract UPPInst toUPP (ArrayList<String> locals);
+    
+    abstract String toString();
+
+}//PPInst
 
 class PPAssign extends PPInst {
 
@@ -516,7 +529,7 @@ class PPAssign extends PPInst {
     /*toUPP returning assignation in UPP*/
     UPPInst toUPP (ArrayList<String> locals){
     	UPPExpr nval = val.toUPP(locals);
-    	return new UPPAssign(nval,name);
+    	return new UPPAssign(name,nval);
    }//toUPP
 
    String toString(){
@@ -679,11 +692,12 @@ abstract class PPDef {
     ArrayList<Pair<String,Type>> args, locals;
     PPInst code;
 
+    /*Add the abstract function to change the PP into UPP*/
+    abstract UPPDef toUPP (ArrayList<String> locals);
+    
     abstract String toString();
+    
 }//PPDef
-
-
-
 
 
 class PPFun extends PPDef {

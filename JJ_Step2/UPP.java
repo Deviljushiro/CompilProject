@@ -155,7 +155,7 @@ class UPPAnd extends UPPBinOp {
     }//UPPAnd
     
     String toString(){
-        return "(" e1.toString() + ") and (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") and (" + e2.toString() + ")" ;
     }//toString
 
 }//UPPAnd
@@ -168,7 +168,7 @@ class UPPOr extends UPPBinOp {
     }//UPPOr
     
     String toString(){
-        return "(" e1.toString() + ") or (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") or (" + e2.toString() + ")" ;
     }//toString
 
 }//UPPOr
@@ -181,7 +181,7 @@ class UPPLe extends UPPBinOp {
     }//UPPLe
     
     String toString(){
-        return "(" e1.toString() + ") < (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") < (" + e2.toString() + ")" ;
     }//toString
 
 }//UPPLe
@@ -194,7 +194,7 @@ class UPPLeq extends UPPBinOp {
     }//UPPLeq
     
     String toString(){
-        return "(" e1.toString() + ") <= (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") <= (" + e2.toString() + ")" ;
     }//toString
 
 }//UPPLeq
@@ -207,7 +207,7 @@ class UPPEq extends UPPBinOp {
     }//UPPEq
     
     String toString(){
-        return "(" e1.toString() + ") == (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") == (" + e2.toString() + ")" ;
     }//toString
 
 
@@ -221,7 +221,7 @@ class UPPNeq extends UPPBinOp {
     }//UPPNeq
     
     String toString(){
-        return "(" e1.toString() + ") != (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") != (" + e2.toString() + ")" ;
     }//toString
 
 }//UPPNeq
@@ -234,7 +234,7 @@ class UPPGeq extends UPPBinOp {
     }//UPPGeq
     
      String toString(){
-        return "(" e1.toString() + ") >= (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") >= (" + e2.toString() + ")" ;
     }//toString
 
 }//UPPGeq
@@ -247,7 +247,7 @@ class UPPGe extends UPPBinOp {
     }//UPPGe
     
      String toString(){
-        return "(" e1.toString() + ") > (" + e2.toString() + ")" ;
+        return "(" + e1.toString() + ") > (" + e2.toString() + ")" ;
     }//toString
 
 }//UPPGe
