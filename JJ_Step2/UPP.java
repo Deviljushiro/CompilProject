@@ -8,7 +8,7 @@ import java.util.*;
 
 abstract class UPPExpr {
     
-    abstract String toString(); //Printer for UPP
+    public abstract String toString(); //Printer for UPP
     
 }//UPPExpr
 
@@ -20,25 +20,25 @@ class UPPCte extends UPPExpr {
         this.val = val;
     }//UPPCte
     
-    String toString(){
-        return val.toString();
-    }//toString
+    public String toString(){
+        return Integer.toString(val);
+    }
 
 }//UPPCte
 
 class UPPTrue extends UPPExpr {
     
-    String toString(){
+    public String toString(){
         return "true";
-    }//toString
+    }
     
 }//UPPTrue
 
 class UPPFalse extends UPPExpr {
     
-    String toString(){
+    public String toString(){
         return "false";
-    }//toString
+    }
 
 }//UPPFalse
 
@@ -50,9 +50,9 @@ class UPPVar extends UPPExpr {
         this.name = name;
     }//UPPVar
     
-    String toString(){
+    public String toString(){
         return name.toString();
-    }//toString
+    }
 
 }//UPPVar
 
@@ -64,9 +64,9 @@ class UPPGVar extends UPPExpr {
         this.name = name;
     }//UPPGVar
     
-    String toString(){
+    public String toString(){
         return name.toString();
-    }//toString
+    }
 
 }//UPPGVar
 
@@ -83,9 +83,9 @@ class UPPNot extends UPPUnOp {
         this.e = e;
     }//UPPNot
     
-    String toString(){
+    public String toString(){
         return "not(" + e.toString() + ")" ;
-    }//toString
+    }
 
 }//UPPNot
 
@@ -102,9 +102,9 @@ class UPPAdd extends UPPBinOp {
         this.e2 = e2;
     }//UPPAdd
     
-    String toString(){
+    public String toString(){
         return e1.toString() + "+" + e2.toString() ;
-    }//toString
+    }
 
 }//UPPAd
 
@@ -115,9 +115,9 @@ class UPPSub extends UPPBinOp {
         this.e2 = e2;
     }//UPPSub
     
-    String toString(){
+    public String toString(){
         return e1.toString() + "-" + e2.toString() ;
-    }//toString
+    }
 
 }//UPPSub
 
@@ -128,9 +128,9 @@ class UPPMul extends UPPBinOp {
         this.e2 = e2;
     }//UPPMul
     
-    String toString(){
+    public String toString(){
         return e1.toString() + "*" + e2.toString() ;
-    }//toString
+    }
 
 }//UPPMul
 
@@ -141,9 +141,9 @@ class UPPDiv extends UPPBinOp {
         this.e2 = e2;
     }//UPPDiv
     
-    String toString(){
+    public String toString(){
         return e1.toString() + "/" + e2.toString() ;
-    }//toString
+    }
 
 }//UPPDiv
 
@@ -154,9 +154,9 @@ class UPPAnd extends UPPBinOp {
         this.e2 = e2;
     }//UPPAnd
     
-    String toString(){
+    public String toString(){
         return "(" + e1.toString() + ") and (" + e2.toString() + ")" ;
-    }//toString
+    }
 
 }//UPPAnd
 
@@ -167,9 +167,9 @@ class UPPOr extends UPPBinOp {
         this.e2 = e2;
     }//UPPOr
     
-    String toString(){
+    public String toString(){
         return "(" + e1.toString() + ") or (" + e2.toString() + ")" ;
-    }//toString
+    }
 
 }//UPPOr
 
@@ -180,9 +180,9 @@ class UPPLe extends UPPBinOp {
         this.e2 = e2;
     }//UPPLe
     
-    String toString(){
+    public String toString(){
         return "(" + e1.toString() + ") < (" + e2.toString() + ")" ;
-    }//toString
+    }
 
 }//UPPLe
 
@@ -193,9 +193,9 @@ class UPPLeq extends UPPBinOp {
         this.e2 = e2;
     }//UPPLeq
     
-    String toString(){
+    public String toString(){
         return "(" + e1.toString() + ") <= (" + e2.toString() + ")" ;
-    }//toString
+    }
 
 }//UPPLeq
 
@@ -206,9 +206,9 @@ class UPPEq extends UPPBinOp {
         this.e2 = e2;
     }//UPPEq
     
-    String toString(){
+    public String toString(){
         return "(" + e1.toString() + ") == (" + e2.toString() + ")" ;
-    }//toString
+    }
 
 
 }//UPPEq
@@ -220,9 +220,9 @@ class UPPNeq extends UPPBinOp {
         this.e2 = e2;
     }//UPPNeq
     
-    String toString(){
+    public String toString(){
         return "(" + e1.toString() + ") != (" + e2.toString() + ")" ;
-    }//toString
+    }
 
 }//UPPNeq
 
@@ -233,9 +233,9 @@ class UPPGeq extends UPPBinOp {
         this.e2 = e2;
     }//UPPGeq
     
-     String toString(){
+     public String toString(){
         return "(" + e1.toString() + ") >= (" + e2.toString() + ")" ;
-    }//toString
+    }
 
 }//UPPGeq
 
@@ -246,16 +246,18 @@ class UPPGe extends UPPBinOp {
         this.e2 = e2;
     }//UPPGe
     
-     String toString(){
+     public String toString(){
         return "(" + e1.toString() + ") > (" + e2.toString() + ")" ;
-    }//toString
+    }
 
 }//UPPGe
 
 
 class Alloc extends Callee {
     
-    abstract String toString();
+    public String toString(){
+        return "Alloc";
+    }
     
 }//Alloc
 
@@ -269,9 +271,9 @@ class UPPFunCall extends UPPExpr {
         this.args = args;
     }//FunCall
     
-    String toString(){
+    public String toString(){
         return callee.toString() + " (" + args.toString() + ")";
-    };//toString
+    }
 
 }//FunCall
 
@@ -283,9 +285,9 @@ class UPPLoad extends UPPExpr {
         this.addr = addr;
     }//UPPLoad
     
-    String toString(){
+    public String toString(){
         return "Reading at the address: "+ addr.toString();
-    };//toString
+    }
 
 }//UPPLoad
 
@@ -305,9 +307,9 @@ class UPPAssign extends UPPInst {
         this.val = val;
     }//UPPAssign
     
-    String toString(){
+    public String toString(){
         return name.toString() + " := " + val.toString();
-    };//toString
+    }
 
 }//UPPAssign
 
@@ -320,9 +322,9 @@ class UPPStore extends UPPInst {
         this.val = val;
     }//UPPStore
     
-    String toString(){
+    public String toString(){
         return "Storing at the address: "+ addr.toString() +" the value "+ val.toString();
-    };//toString
+    }
 
 }//UPPStore
 
@@ -337,9 +339,9 @@ class UPPCond extends UPPInst {
         this.i2 = i2;
     }//UPPCond
     
-    String toString(){
+    public String toString(){
         return "if " + cond.toString() + " then " + i1.toString() + " else " + i2.toString();
-    };//toString
+    }
 
 }//UPPCond
 
@@ -353,9 +355,9 @@ class UPPWhile extends UPPInst {
         this.i = i;
     }//UPPWhile
     
-    String toString(){
+    public String toString(){
         return "while " + cond.toString() + " do " + i.toString();
-    };//toString
+    }
 
 }//UPPWhile
 
@@ -369,13 +371,19 @@ class UPPProcCall extends UPPInst {
         this.args = args;
     }//UPPProcCall
     
-    String toString(){
+    public String toString(){
         return callee.toString() + " (" + args.toString() + ")";
-    };//toString
+    }
 
 }//UPPProcCall
     
-class UPPSkip extends UPPInst {}//UPPSkip
+class UPPSkip extends UPPInst {
+
+    public String toString(){
+        return "skip";
+    }
+    
+}//UPPSkip
 
 class UPPSeq extends UPPInst {
 
@@ -386,9 +394,9 @@ class UPPSeq extends UPPInst {
         this.i2 = i2;
     }//UPPSeq
     
-     String toString(){
+     public String toString(){
         return i1.toString() + "; " + i2.toString();
-    };//toString
+    }
 
 }//UPPSeq
 
@@ -403,7 +411,7 @@ abstract class UPPDef {
     ArrayList<String> args, locals;
     UPPInst code;
     
-    abstract String toString();
+    public abstract String toString();
 
 }//UPPDef
 
@@ -417,9 +425,9 @@ class UPPFun extends UPPDef {
         this.code = code;
     }//UPPFun
     
-    String toString(){
+    public String toString(){
         return name.toString() + "(" + args.toString() + ") var " + locals.toString() + " " + code.toString();
-    };//toString
+    }
 
 }//UPPFun
 
@@ -433,9 +441,9 @@ class UPPProc extends UPPDef {
         this.code = code;
     }//UPPProc
     
-    String toString(){
+    public String toString(){
         return name.toString() + "(" + args.toString() + ") var " + locals.toString() + " " + code.toString();
-    };//toString
+    }
 
 }//UPPProc
 
@@ -455,8 +463,8 @@ class UPPProg {
         this.code = code;
     }//UPPProg
     
-    String toString(){
+    public String toString(){
         return   "var " + globals.toString() + " " + defs.toString() + " " + code.toString();
-    };//toString
+    }
 
 }//UPPProg
