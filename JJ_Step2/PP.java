@@ -6,11 +6,27 @@ import java.util.*;
 /* Types */
 /*********/
 
-abstract class Type {}//Type
+abstract class Type {
+	
+     public abstract String toString();
+	
+}//Type
 
-class Int extends Type {}//Int
+class Int extends Type {
+	
+     public String toString(){
+     	return "integer";
+     }
+	
+}//Int
 
-class Bool extends Type {}//Bool
+class Bool extends Type {
+	
+    public String toString(){
+     	return "boolean";
+     }
+	
+}//Bool
 
 class Array extends Type {
 
@@ -19,6 +35,10 @@ class Array extends Type {
     Array (Type elements) {
         this.elements = elements;
     }//Array
+    
+    public String toString(){
+     	return "array of : "+type.toString();
+     }
 
 }//Array
 
