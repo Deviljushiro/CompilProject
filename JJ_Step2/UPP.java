@@ -295,7 +295,11 @@ class UPPLoad extends UPPExpr {
 /* Instructions */
 /****************/
 
-abstract class UPPInst {}//UPPInst
+abstract class UPPInst {
+    
+    public abstract String toString();
+    
+}//UPPInst
 
 class UPPAssign extends UPPInst {
 
