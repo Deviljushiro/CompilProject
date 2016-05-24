@@ -380,7 +380,9 @@ class UPPLoad extends UPPExpr {
 
     RTLInst toRTL (ArrayList<Pair<String,PRegister>> locals,
                    ArrayList<String> globals, PRegister reg, RTLInst succ) {
-        //To do
+        PRegister regAddr = addr.getPRegister(locals);
+        RTLInst load = new RTLLoad(regAddr,reg,succ);
+        return addr.toRTL(locals,globals,regAddr,load);//done
     }//toRTL
 
 }//UPPLoad
