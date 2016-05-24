@@ -37,7 +37,7 @@ class Array extends Type {
     }//Array
     
     public String toString(){
-     	return "array of : "+type.toString();
+     	return "array of : "+ elements.toString();
      }
 
 }//Array
