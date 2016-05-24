@@ -509,7 +509,14 @@ class UPPProcCall extends UPPInst {
 
     RTLInst toRTL (ArrayList<Pair<String,PRegister>> locals,
                    ArrayList<String> globals, RTLInst succ) {
-        //To do
+        ArrayList<PRegister> regs = new ArrayList<PRegister>();
+        for (UPPExpr e : args)
+            regs.add(e.getPRegister(locals));
+        RTLInst proc = new RTLProcCall(callee,regs,succ);
+        RTLInst acc = proc;
+        for (int i = args.size() - 1; i >= 0; i--)
+            acc = args.get(i).toRTL(locals,globals,regs.get(i),acc);
+        return acc;//done
     }//toRTL
 
 }//UPPProcCall
