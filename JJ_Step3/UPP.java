@@ -464,7 +464,13 @@ class UPPCond extends UPPInst {
 
     RTLInst toRTL (ArrayList<Pair<String,PRegister>> locals,
                    ArrayList<String> globals, RTLInst succ) {
-        //To do
+        PRegister regCond = cond.getPRegister(locals);
+        RTLInst ni1 = i1.toRTL(locals,globals,succ);
+        RTLInst ni2 = i2.toRTL(locals,globals,succ);
+        RTLGtz gtz = new RTLGtz(regCond,ni1,ni2);
+        RTLInst ncond = cond.toRTL(locals,globals,regCond,gtz);
+        return ncond;//done
+       
     }//toRTL
 
 }//UPPCond
