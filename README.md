@@ -15,3 +15,6 @@
 1. **PP.java** : Same PP than in STEP 2
 2. **UPP.java** : All toRLT methods added to transform a UPP class in RTL class by calling toRTL
 3. **RTL.java** : Add the teacher's RTL file
+
+##STEP 4
+**AlgoColor.java** : Le choix crucial que doit faire Julia : Matrice d'adjacence ou Matrice d'incidence ? 
