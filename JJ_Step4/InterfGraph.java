@@ -166,6 +166,24 @@ class InterfGraph {
       }    
   }
 
+
+  /**
+  * @param ArrayList<String> vertices, list of vertices
+  * @param ArrayList<String> interferences, list of interferences
+  * @return boolean exist, true if a vertex in vertices had a degree inferior to this.degree
+  **/
+  boolean existVerticeOk (ArrayList<String> vertices, ArrayList<String> interferences){
+    boolean exist = false;
+    int i=0;
+
+    while ( (!exist) && (i<vertices.size()) ){
+      if ( getDegree(interferences, vertices[i]) <= this.degree ){
+        exist = true;
+      }
+    }
+    return exist;
+  }
+
   /**
   * @param None, just use the intern InterfGraph
   * @return ArrayList<String> vertexToColor, the list of vertices to color
@@ -176,21 +194,26 @@ class InterfGraph {
   ArrayList<String> interferences = this.interf.clone(); //Copy of the initial list of interferences 
   ArrayList<String> vertices = this.vertices.clone(); //Copy of the initial list of vertices
 
+    while( !(vertices.isEmpty()) ){
+      while( existe sommet avec degre < degré à respecter ){
+        
+        int i=0;
 
-    while( existe sommet avec degre < degré à respecter ){
-      
-      int i=0;
+        while( getDegree(interferences, vertices[i]) < this.degree ){
 
-      while( getDegree(interferences, vertices[i]) < this.degree ){
-
-        vertexToColor.add(vertices[i]; // Add the vertex to them to color 
-        deleteInterf(interferences, vertices[i]) // Delete all the interferences who had a link with the vertex
-        vertices.remove( getIndex(vertices, vertices[i]) ) // Delete the vertex of the list of vertices
-        i++
+          vertexToColor.add(vertices[i]; // Add the vertex to them to color 
+          deleteInterf(interferences, vertices[i]) // Delete all the interferences who had a link with the vertex
+          vertices.remove( getIndex(vertices, vertices[i]) ) // Delete the vertex of the list of vertices
+          i++
+        }
       }
-    }
 
-    String vertex = 
+      String vertexToSpill = maxDegreeVertex(vertices, interferences);
+      //mettre la couleur à null
+      deleteInterf(interferences, vertexToSpill)
+      vertices.remove( getIndex(vertices, vertexToSpill) ) // Delete the vertexToSpill of the list of vertices
+
+    }
 
 
   }
