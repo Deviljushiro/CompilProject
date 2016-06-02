@@ -113,43 +113,25 @@ class InterfGraph {
 
 
   /**
-  * @param None, just use the intern InterfGraph
+  * @param ArrayList<String> vertices, list of vertices
+  * @param ArrayList<String> interferences, list of interferences
   * @return int min, the the minimum degree of the graph
   **/
-  String minDegree () {
+  String minDegree(ArrayList<String> vertices, ArrayList<String> interferences) {
   
-  int min = this.getDegree(this.interf.get(0)); //Initialize the first degree's vertex as the min
+  int min = this.getDegree(interferences, vertices[0]); //Initialize the first degree's vertex as the min
 
-  for (int i=1;i<=this.interf.size();i++) {
+  for (int i=1;i<=interferences.size();i++) {
 
-    if (this.getDegree(this.interf.get(i)) < min) {
+    if (getDegree(interferences, vertices[i]) < min) {
 
-      min = this.getDegree(this.interf.get(i)); //This is the new minimum degree  
+      min = getDegree(interferences, vertices[i]); //This is the new minimum degree  
     }
   }
   return min;
   }
 
 
-  /**
-  * @param None, just use the intern InterfGraph
-  * @return String, the vertex with the minimum degree of the graph
-  **/
-  String minDegreeVertex () {
-	
-	int min = this.getDegree(this.interf.get(0)); //Initialize the first degree's vertex as the min
-  String verticeMin = this.getVertex(this.interf.get(0)); //Initialize the first vertex as the min degree's
-
-	for (int i=1;i<=this.interf.size();i++) {
-
-		if (this.getDegree(this.interf.get(i)) < min) {
-
-			min = this.getDegree(this.interf.get(i));	//This is the new minimum degree	
-      verticeMin = this.getVertex(this.interf.get(i));  //This is the new minimum degree
-		}
-	}
-	return verticeMin;
-  }
 
   /**
   * @param ArrayList<String> interferences, list to modify
@@ -184,49 +166,70 @@ class InterfGraph {
     return exist;
   }
 
+
+  /**
+  * @param ArrayList<String> vertices, list of vertices
+  * @param ArrayList<String> interferences, list of interferences
+  * @return boolean, True if a vertex needs to be spilled, False else or if the graph is empty
+  **/
+  boolean needSpill (ArrayList<String> vertices, ArrayList<String> interferences) {
+    return ( !(vertices.isEmpty()) && minDegree(vertices, interferences)>this.degree );
+  }
+
+
   /**
   * @param None, just use the intern InterfGraph
   * @return ArrayList<String> vertexToColor, the list of vertices to color
   **/
   ArrayList<String> toColor () {
 
-  ArrayList<String> vertexToColor; //List to return, with all the vertices to color, without them to spill
-  ArrayList<String> interferences = this.interf.clone(); //Copy of the initial list of interferences 
-  ArrayList<String> vertices = this.vertices.clone(); //Copy of the initial list of vertices
+    ArrayList<String> vertexToColor; //List to return, with all the vertices to color, without them to spill
+    ArrayList<String> interferences = this.interf.clone(); //Copy of the initial list of interferences 
+    ArrayList<String> vertices = this.vertices.clone(); //Copy of the initial list of vertices
 
-    while( !(vertices.isEmpty()) ){
-      while( existe sommet avec degre < degré à respecter ){
-        
-        int i=0;
+      while( !(vertices.isEmpty()) ){
+        while( existVerticeOk(vertices, interferences) ){
+          
+          int i=0;
 
-        while( getDegree(interferences, vertices[i]) < this.degree ){
+          while( getDegree(interferences, vertices[i]) < this.degree ){
 
-          vertexToColor.add(vertices[i]; // Add the vertex to them to color 
-          deleteInterf(interferences, vertices[i]) // Delete all the interferences who had a link with the vertex
-          vertices.remove( getIndex(vertices, vertices[i]) ) // Delete the vertex of the list of vertices
-          i++
+            vertexToColor.add(vertices[i]); // Add the vertex to them to color 
+            deleteInterf(interferences, vertices[i]) // Delete all the interferences who had a link with the vertex
+            vertices.remove( getIndex(vertices, vertices[i]) ) // Delete the vertex of the list of vertices
+            i++
+
+          }
+        }
+        if ( needSpill(vertices, interferences) ){
+          String vertexToSpill = maxDegreeVertex(vertices, interferences);
+          deleteInterf(interferences, vertexToSpill)
+          vertices.remove( getIndex(vertices, vertexToSpill) ) // Delete the vertexToSpill of the list of vertices
         }
       }
 
-      String vertexToSpill = maxDegreeVertex(vertices, interferences);
-      //mettre la couleur à null
-      deleteInterf(interferences, vertexToSpill)
-      vertices.remove( getIndex(vertices, vertexToSpill) ) // Delete the vertexToSpill of the list of vertices
-
-    }
-
-
+      return vertexToColor;
   }
-
 
   /**
-  * @param int colorNumber, 
-  * @return boolean, True if the graph needs to be spilled, False else
+  * @param  ArrayList<String> vertexToColor, list for compare with the vertices list og the InterGraph
+  * @return ArrayList<String> vertexToSpill, the list of vertices to spill
   **/
-  boolean needSpill (int colorNumber) {
+  ArrayList<String> toSpill (ArrayList<String> vertexToColor) {
 
-	return (this.maxDegree() >
+    ArrayList<String> vertexToSpill = this.vertices.clone(); //List to return, with all the vertices to spill, initialize with a copy of the vertices
 
+    for (int i=0; i<=this.vertices.size();i++) {
+      for (int j=0; i<=this.vertexToColor.size();i++){
+        if (vertexToSpill[i] == vertexToColor[j]){ // If the vertex is in the list of vertexToColor, delete it from vertexToDelete
+          vertexToSpill.remove(i);
+        }
+      }
+    }
   }
+
+
+
+
   
 }
