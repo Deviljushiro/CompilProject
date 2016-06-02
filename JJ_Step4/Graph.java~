@@ -59,7 +59,7 @@ class InterfGraph {
 
 	for (int i=1;i<=this.interf.size();i++) {
 
-		if (this.getDegree(this.interf.get(i)) > max) {
+		if (this.getDegree(this.interf.get(i)) > max)) {
 
 			max = this.getDegree(this.interf.get(i));	//This is the new maximum degree	
 		}
@@ -78,7 +78,7 @@ class InterfGraph {
 
 	for (int i=1;i<=this.interf.size();i++) {
 
-		if (this.getDegree(this.interf.get(i)) < min) {
+		if (this.getDegree(this.interf.get(i)) < min)) {
 
 			min = this.getDegree(this.interf.get(i));	//This is the new minimum degree	
 		}
