@@ -30,18 +30,37 @@ class InterfGraph {
   	return this.vertices.get(index);
   }
 
+  /**
+  * @param ArrayList<String> interferences, list of interferences for searching
+  * @param String vertex : the vertex where we want to know its index
+  * @return int, the index of the vertex in parameter
+  **/
+  String getIndex(ArrayList<String> vertices, String vertex) {
+    boolean flag = true;
+    i=0;
+    while(flag && (i<vertices.size()) ){
+      if (vertice[i] == vertex){
+        flag = false;
+      }
+      i++;
+    }
+    return vertices[i-1];
+  }
+
+
 
   /**
+  * @param ArrayList<String> interferences, list of interferences for searching
   * @param String vertex : the vertex where we want to know its degree
   * @return int, the degree of the vertex in parameter (>= 0)
   **/
-  int getDegree (String vertex) {
+  int getDegree (ArrayList<String> interferences, String vertex) {
 
 	int degree = 0; //Initialize the degree value
 
-  	for (int i=0;i<this.interf.size();i++) {
+  	for (int i=0;i<interferences.size();i++) {
 
-		String [] splittedEdge = this.interf.get(i).split("-");	//Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
+		String [] splittedEdge = interferences.get(i).split("-");	//Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
 		
       		if ((splittedEdge[0] == vertex)||(splittedEdge[1] == vertex)) {	//If the parameter vertex is in the edge then degree+1
 
@@ -110,7 +129,7 @@ class InterfGraph {
   }
 
   /**
-  * @param ArrayList<String> interferences, lsit to modify
+  * @param ArrayList<String> interferences, list to modify
   * @param String vertex, vertex that we have to delete it interferences
   **/
   void deleteInterf (ArrayList<String> interferences, String vertex){
@@ -138,13 +157,12 @@ class InterfGraph {
 
       vertex = vertices[0]; //Initialize the first vertice
 
-      while(vertex)
+      while( getDegree(interferences, vertex) < this.degree ){
         vertexToColor.add(vertex()); 
         deleteInterf(interferences, vertex)
+        vertices.remove()
+      }
     }
-
-
-  
   }
 
 
