@@ -89,9 +89,32 @@ class InterfGraph {
 	return max;
   }
 
-    /**
+
+  /**
+  * @param ArrayList<String> vertices, list of vertices
+  * @param ArrayList<String> interferences, list of interferences
+  * @return int maxVertex, the vertex with maximum degree
+  **/
+  int maxDegreeVertex (ArrayList<String> vertices, ArrayList<String> interferences) {
+  
+  int max = getDegree(interferences, vertices[0]); //Initialize the first degree's vertex as the max
+  String verticeMax = vertice[0]; //Initialize the first vertex as the min degree's
+
+  for (int i=1;i<=interferences.size();i++) {
+
+    if (getDegree(interferences, vertices[i]) > max) {
+
+      max = getDegree(interferences, vertices[i]); //This is the new maximum degree 
+      maxVertex = vertices[i]; //This is the new vertex with the maximum degree
+    }
+  }
+  return maxVertex;
+  }
+
+
+  /**
   * @param None, just use the intern InterfGraph
-  * @return int, the the minimum degree of the graph
+  * @return int min, the the minimum degree of the graph
   **/
   String minDegree () {
   
@@ -147,22 +170,29 @@ class InterfGraph {
   * @param None, just use the intern InterfGraph
   * @return ArrayList<String> vertexToColor, the list of vertices to color
   **/
-  ArrayList<String> toColor ( int k) {
+  ArrayList<String> toColor () {
 
   ArrayList<String> vertexToColor; //List to return, with all the vertices to color, without them to spill
   ArrayList<String> interferences = this.interf.clone(); //Copy of the initial list of interferences 
   ArrayList<String> vertices = this.vertices.clone(); //Copy of the initial list of vertices
 
-    while( !(vertices.empty()) ){
 
-      vertex = vertices[0]; //Initialize the first vertice
+    while( existe sommet avec degre < degré à respecter ){
+      
+      int i=0;
 
-      while( getDegree(interferences, vertex) < this.degree ){
-        vertexToColor.add(vertex()); 
-        deleteInterf(interferences, vertex)
-        vertices.remove()
+      while( getDegree(interferences, vertices[i]) < this.degree ){
+
+        vertexToColor.add(vertices[i]; // Add the vertex to them to color 
+        deleteInterf(interferences, vertices[i]) // Delete all the interferences who had a link with the vertex
+        vertices.remove( getIndex(vertices, vertices[i]) ) // Delete the vertex of the list of vertices
+        i++
       }
     }
+
+    String vertex = 
+
+
   }
 
 
