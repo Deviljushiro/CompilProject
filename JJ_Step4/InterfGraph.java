@@ -12,7 +12,7 @@ class InterfGraph {
   private int degree; //The degree of the InternGraph to respect
 
   /**Constructor**/
-  InterfGraph (ArrayList<String> v, ArrayList<String> i, ArrayList<String> p) {
+  InterfGraph (ArrayList<String> v, ArrayList<String> i, ArrayList<String> p, int k) {
 
   	this.vertices = v;
   	this.interf = i;
@@ -37,17 +37,15 @@ class InterfGraph {
   **/
   String getIndex(ArrayList<String> vertices, String vertex) {
     boolean flag = true;
-    i=0;
+    int i=-1;
     while(flag && (i<vertices.size()) ){
-      if (vertice[i] == vertex){
+      i++;
+      if (vertices.get(i) == vertex){
         flag = false;
       }
-      i++;
     }
-    return vertices[i-1];
+    return vertices.get(i-1);
   }
-
-
 
   /**
   * @param ArrayList<String> interferences, list of interferences for searching
@@ -75,7 +73,7 @@ class InterfGraph {
   * @param None, just use the intern InterfGraph
   * @return int, the maximum degree of the graph
   **/
-  int maxDegree () {
+  /*int maxDegree () {
 	
 	int max = this.getDegree(this.interf.get(0)); //Initialize the first degree's vertex as the max
 
@@ -87,28 +85,28 @@ class InterfGraph {
 		}
 	}
 	return max;
-  }
+  }*/
 
 
   /**
   * @param ArrayList<String> vertices, list of vertices
   * @param ArrayList<String> interferences, list of interferences
-  * @return int maxVertex, the vertex with maximum degree
+  * @return String maxVertex, the vertex with maximum degree
   **/
-  int maxDegreeVertex (ArrayList<String> vertices, ArrayList<String> interferences) {
+  String maxDegreeVertex (ArrayList<String> vertices, ArrayList<String> interferences) {
   
-  int max = getDegree(interferences, vertices[0]); //Initialize the first degree's vertex as the max
-  String verticeMax = vertice[0]; //Initialize the first vertex as the min degree's
+  int max = getDegree(interferences, vertices.get(0) ); //Initialize the first degree's vertex as the max
+  String verticeMax = vertices.get(0); //Initialize the first vertex as the min degree's
 
   for (int i=1;i<=interferences.size();i++) {
 
-    if (getDegree(interferences, vertices[i]) > max) {
+    if (getDegree(interferences, vertices.get(i) ) > max) {
 
-      max = getDegree(interferences, vertices[i]); //This is the new maximum degree 
-      maxVertex = vertices[i]; //This is the new vertex with the maximum degree
+      max = getDegree(interferences, vertices.get(i) ); //This is the new maximum degree 
+      verticeMax = vertices.get(i); //This is the new vertex with the maximum degree
     }
   }
-  return maxVertex;
+  return verticeMax;
   }
 
 
@@ -117,15 +115,15 @@ class InterfGraph {
   * @param ArrayList<String> interferences, list of interferences
   * @return int min, the the minimum degree of the graph
   **/
-  String minDegree(ArrayList<String> vertices, ArrayList<String> interferences) {
+  int minDegree(ArrayList<String> vertices, ArrayList<String> interferences) {
   
-  int min = this.getDegree(interferences, vertices[0]); //Initialize the first degree's vertex as the min
+  int min = this.getDegree(interferences, vertices.get(0) ); //Initialize the first degree's vertex as the min
 
   for (int i=1;i<=interferences.size();i++) {
 
-    if (getDegree(interferences, vertices[i]) < min) {
+    if (getDegree(interferences, vertices.get(i) ) < min) {
 
-      min = getDegree(interferences, vertices[i]); //This is the new minimum degree  
+      min = getDegree(interferences, vertices.get(i) ); //This is the new minimum degree  
     }
   }
   return min;
@@ -159,7 +157,7 @@ class InterfGraph {
     int i=0;
 
     while ( (!exist) && (i<vertices.size()) ){
-      if ( getDegree(interferences, vertices[i]) <= this.degree ){
+      if ( getDegree(interferences, vertices.get(i) ) <= this.degree ){
         exist = true;
       }
     }
@@ -178,33 +176,46 @@ class InterfGraph {
 
 
   /**
+  * @param ArrayList<String> interferences, list to modify
+  * @param String vertex, vertex that we have to delete it interferences
+  * @return boolean, if the vertex degree's is inferior to the degree k, return true, else false 
+  **/
+  boolean notDegreeInf(ArrayList<String> interferences, String vertex){
+    return (getDegree(interferences, vertex) > this.degree);
+  }
+
+
+  /**
   * @param None, just use the intern InterfGraph
   * @return ArrayList<String> vertexToColor, the list of vertices to color
   **/
   ArrayList<String> toColor () {
 
-    ArrayList<String> vertexToColor; //List to return, with all the vertices to color, without them to spill
-    ArrayList<String> interferences = this.interf.clone(); //Copy of the initial list of interferences 
-    ArrayList<String> vertices = this.vertices.clone(); //Copy of the initial list of vertices
+    ArrayList<String> vertexToColor = new ArrayList<String>(); //List to return, with all the vertices to color, without them to spill
+    ArrayList<String> interferences = this.interf; //Copy of the initial list of interferences 
+    ArrayList<String> vertices = this.vertices; //Copy of the initial list of vertices
 
       while( !(vertices.isEmpty()) ){
         while( existVerticeOk(vertices, interferences) ){
           
           int i=0;
+          
+          while( notDegreeInf(interferences, vertices.get(i))){
+            i++;
+          }
 
-          while( getDegree(interferences, vertices[i]) < this.degree ){
-
-            vertexToColor.add(vertices[i]); // Add the vertex to them to color 
-            deleteInterf(interferences, vertices[i]) // Delete all the interferences who had a link with the vertex
-            vertices.remove( getIndex(vertices, vertices[i]) ) // Delete the vertex of the list of vertices
-            i++
-
+          while( getDegree(interferences, vertices.get(i) ) < this.degree ){
+            vertexToColor.add(vertices.get(i)); // Add the vertex to them to color 
+            deleteInterf(interferences, vertices.get(i)); // Delete all the interferences who had a link with the vertex
+            vertices.remove( getIndex(vertices, vertices.get(i)) ); // Delete the vertex of the list of vertices
+            i++;
           }
         }
+
         if ( needSpill(vertices, interferences) ){
           String vertexToSpill = maxDegreeVertex(vertices, interferences);
-          deleteInterf(interferences, vertexToSpill)
-          vertices.remove( getIndex(vertices, vertexToSpill) ) // Delete the vertexToSpill of the list of vertices
+          deleteInterf(interferences, vertexToSpill);
+          vertices.remove( getIndex(vertices, vertexToSpill) ); // Delete the vertexToSpill of the list of vertices
         }
       }
 
@@ -217,15 +228,16 @@ class InterfGraph {
   **/
   ArrayList<String> toSpill (ArrayList<String> vertexToColor) {
 
-    ArrayList<String> vertexToSpill = this.vertices.clone(); //List to return, with all the vertices to spill, initialize with a copy of the vertices
+    ArrayList<String> vertexToSpill = this.vertices; //List to return, with all the vertices to spill, initialize with a copy of the vertices
 
     for (int i=0; i<=this.vertices.size();i++) {
-      for (int j=0; i<=this.vertexToColor.size();i++){
-        if (vertexToSpill[i] == vertexToColor[j]){ // If the vertex is in the list of vertexToColor, delete it from vertexToDelete
+      for (int j=0; i<=vertexToColor.size();i++){
+        if (vertexToSpill.get(i) == vertexToColor.get(j)){ // If the vertex is in the list of vertexToColor, delete it from vertexToDelete
           vertexToSpill.remove(i);
         }
       }
     }
+    return vertexToSpill;
   }
 
 
