@@ -8,7 +8,6 @@ class InterfGraph {
   private ArrayList<String> vertices; //String list of each vertex name : ("a","b",...)
   private ArrayList<String> interf;   //List of interferences between vertices (pattern : "vertex1-vertex2")
   private ArrayList<String> pref;     //List of preferences between vertices (pattern : "vertex1-vertex2")
-  private ArrayList<String> toColor; //String list of each vertex name to color, without spilled vertex: ("a","b",...)
   private int degree; //The degree of the InternGraph to respect
 
   /**Constructor**/
@@ -70,43 +69,24 @@ class InterfGraph {
 
 
   /**
-  * @param None, just use the intern InterfGraph
-  * @return int, the maximum degree of the graph
-  **/
-  /*int maxDegree () {
-	
-	int max = this.getDegree(this.interf.get(0)); //Initialize the first degree's vertex as the max
-
-	for (int i=1;i<=this.interf.size();i++) {
-
-		if (this.getDegree(this.interf.get(i)) > max) {
-
-			max = this.getDegree(this.interf.get(i));	//This is the new maximum degree	
-		}
-	}
-	return max;
-  }*/
-
-
-  /**
   * @param ArrayList<String> vertices, list of vertices
   * @param ArrayList<String> interferences, list of interferences
   * @return String maxVertex, the vertex with maximum degree
   **/
   String maxDegreeVertex (ArrayList<String> vertices, ArrayList<String> interferences) {
   
-  int max = getDegree(interferences, vertices.get(0) ); //Initialize the first degree's vertex as the max
-  String verticeMax = vertices.get(0); //Initialize the first vertex as the min degree's
-
-  for (int i=1;i<=interferences.size();i++) {
-
-    if (getDegree(interferences, vertices.get(i) ) > max) {
-
-      max = getDegree(interferences, vertices.get(i) ); //This is the new maximum degree 
-      verticeMax = vertices.get(i); //This is the new vertex with the maximum degree
-    }
-  }
-  return verticeMax;
+	  int max = getDegree(interferences, vertices.get(0) ); //Initialize the first degree's vertex as the max
+	  String verticeMax = vertices.get(0); //Initialize the first vertex as the min degree's
+	
+	  for (int i=1;i<=interferences.size();i++) {
+	
+	    if (getDegree(interferences, vertices.get(i) ) > max) {
+	
+	      max = getDegree(interferences, vertices.get(i) ); //This is the new maximum degree 
+	      verticeMax = vertices.get(i); //This is the new vertex with the maximum degree
+	    }
+	  }
+	  return verticeMax;
   }
 
 
@@ -117,16 +97,16 @@ class InterfGraph {
   **/
   int minDegree(ArrayList<String> vertices, ArrayList<String> interferences) {
   
-  int min = this.getDegree(interferences, vertices.get(0) ); //Initialize the first degree's vertex as the min
-
-  for (int i=1;i<=interferences.size();i++) {
-
-    if (getDegree(interferences, vertices.get(i) ) < min) {
-
-      min = getDegree(interferences, vertices.get(i) ); //This is the new minimum degree  
-    }
-  }
-  return min;
+	  int min = this.getDegree(interferences, vertices.get(0) ); //Initialize the first degree's vertex as the min
+	
+	  for (int i=1;i<=interferences.size();i++) {
+	
+	    if (getDegree(interferences, vertices.get(i) ) < min) {
+	
+	      min = getDegree(interferences, vertices.get(i) ); //This is the new minimum degree  
+	    }
+	  }
+	  return min;
   }
 
 
@@ -239,7 +219,43 @@ class InterfGraph {
     }
     return vertexToSpill;
   }
+  
+  /**
+   * @param None, just use the intern InterfGraph
+   * @return ArrayList<String> colors, the list of colors
+   **/
+   ArrayList<String> getColors () {
+	   ArrayList<String> listColors = new ArrayList<String>;
+	   for(int i; i<= this.degree; i++){
+		   Scanner sc = new Scanner(System.in);
+		   System.out.println("Veuillez entrer le nom d'une couleur : ");
+		   String name = sc.nextLine();
+		   listColors.add(name);
+	   }
+	   return listColors;
+   }  
 
+  
+  /**
+   * @param ArrayList<String> vertexToColor, list for compare with the vertices list og the InterGraph
+   * @param ArrayList<String> vertexToSpill, the list of vertices to spill
+   * @return ArrayList<String> result, the list of vertices with their colors (pattern : "vertex - color")
+   **/
+   ArrayList<String> color (ArrayList<String> vertexToColor, ArrayList<String> vertexToSpill, ArrayList<String> colors) {
+	   
+	   ArrayList<String> result = new ArrayList<String>;
+	   
+	   for(int i; i<= vertexToSpill.size(); i++){ //Initialize all the vertices to spill at NULL
+		   result.add(vertexToSpill.get(i)+" - "+"NULL");
+	   }
+	   
+	   result.add(vertexToColor.get(0)+" - "+colors.get(0)); //Initialize the first vertex with the first color
+	   
+	   for(int j; j<= vertexToSpill.size(); j++){
+		   
+	   }
+	   return result;
+   }
 
 
 
