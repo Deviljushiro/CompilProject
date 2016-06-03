@@ -225,8 +225,8 @@ class InterfGraph {
    * @return ArrayList<String> colors, the list of colors
    **/
    ArrayList<String> getColors () {
-	   ArrayList<String> listColors = new ArrayList<String>;
-	   for(int i; i<= this.degree; i++){
+	   ArrayList<String> listColors = new ArrayList<String>();
+	   for(int i=0; i<= this.degree; i++){
 		   Scanner sc = new Scanner(System.in);
 		   System.out.println("Veuillez entrer le nom d'une couleur : ");
 		   String name = sc.nextLine();
@@ -243,18 +243,18 @@ class InterfGraph {
    **/
    ArrayList<String> color (ArrayList<String> vertexToColor, ArrayList<String> vertexToSpill, ArrayList<String> colors) {
 	   
-	   ArrayList<String> result = new ArrayList<String>;
+	   ArrayList<String> result = new ArrayList<String>();
 	   
-	   for(int i; i<= vertexToSpill.size(); i++){ //Initialize all the vertices to spill at NULL
+	   for(int i=0; i<= vertexToSpill.size(); i++){ //Initialize all the vertices to spill at NULL
 		   result.add(vertexToSpill.get(i)+" - "+"NULL");
 	   }
 	   
 	   result.add(vertexToColor.get(0)+" - "+colors.get(0)); //Initialize the first vertex with the first color
 	   
-	   for(int j; j<= vertexToSpill.size(); j++){
+	   for(int j=1; j<= vertexToSpill.size(); j++){
 		   
 	   }
-	   return result;
+		return result;
    }
 
 
