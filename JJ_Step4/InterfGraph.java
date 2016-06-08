@@ -6,8 +6,8 @@ import java.util.*;
 public class InterfGraph {
   
   private ArrayList<String> vertices; //String list of each vertex name : ("a","b",...)
-  private ArrayList<String> interf;   //List of interferences between vertices pattern : "vertex1-vertex2"
-  private ArrayList<String> pref;     //List of preferences between vertices pattern : "vertex1-vertex2"
+  private ArrayList<String> interf;   //List of interferences between vertices (pattern : "vertex1-vertex2")
+  private ArrayList<String> pref;     //List of preferences between vertices (pattern : "vertex1-vertex2")
   private int degree; //The degree of the InternGraph to respect
 
   /**Constructor**/
@@ -34,16 +34,16 @@ public class InterfGraph {
   * @param String vertex : the vertex where we want to know its index
   * @return int, the index of the vertex in parameter
   **/
-  public int getIndex(ArrayList<String> vertices, String vertex) {
+  public String getIndex(ArrayList<String> vertices, String vertex) {
     boolean flag = true;
     int i=0;
     while(flag && (i<vertices.size()) ){
-      if (vertices.get(i).equals(vertex)){
+      if (vertices.get(i) == vertex){
         flag = false;
         i++;
       }
     }
-    return (i-1) ;
+    return vertices.get(i-1);
   }
 
   /**
@@ -57,13 +57,12 @@ public class InterfGraph {
 
   	for (int i=0;i<interferences.size();i++) {
 
-		String [] splittedEdge = interferences.get(i).split("-");	//Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
+		  String [] splittedEdge = interferences.get(i).split("-");	//Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
 		
       		if ((splittedEdge[0].equals(vertex))||(splittedEdge[1].equals(vertex))) {	//If the parameter vertex is in the edge then degree+1
-
-			degree++;
-		} 
-    	}
+			     degree++;
+		      } 
+    }
 	return degree;
   }
 
@@ -78,7 +77,7 @@ public class InterfGraph {
 	  int max = getDegree(interferences, vertices.get(0) ); //Initialize the first degree's vertex as the max
 	  String verticeMax = vertices.get(0); //Initialize the first vertex as the min degree's
 	
-	  for (int i=1;i<interferences.size();i++) {
+	  for (int i=1;i<vertices.size();i++) {
 	
 	    if (getDegree(interferences, vertices.get(i) ) > max) {
 	
@@ -115,18 +114,18 @@ public class InterfGraph {
   * @param ArrayList<String> interferences, list to modify
   * @param String vertex, vertex that we have to delete it interferences
   **/
-  public void deleteInterf (ArrayList<String> interferences, String vertex){
+  public ArrayList<String> deleteInterf (ArrayList<String> interferences, String vertex){
 
       for (int i=0;i<interferences.size();i++) {
 
         String [] splittedEdge = interferences.get(i).split("-"); //Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
     
-        if ((splittedEdge[0].equals(vertex)||(splittedEdge[1].equals(vertex)))) { //If the vertex is in the edge then remove this link of interferences
+        if ((splittedEdge[1].equals(vertex)||(splittedEdge[1].equals(vertex)))) { //If the vertex is in the edge then remove this link of interferences
           System.out.println("1");
           interferences.remove(i);
         } 
       }   
-      System.out.println(interferences);
+      return interferences;
   }
 
 
@@ -184,10 +183,9 @@ public class InterfGraph {
 
           if( getDegree(interferences, vertices.get(i) ) < this.degree ){
             vertexToColor.add(vertices.get(i)); // Add the vertex to them to color 
-            deleteInterf(interferences, vertices.get(i)); // Delete all the interferences who had a link with the vertex
-            System.out.println(vertices);
+            interferences=deleteInterf(interferences, vertices.get(i)); // Delete all the interferences who had a link with the vertex
             vertices.remove( getIndex(vertices, vertices.get(i)) ); // Delete the vertex of the list of vertices
-            System.out.println(vertices);
+
           }
           else{
             i++;
@@ -195,7 +193,7 @@ public class InterfGraph {
         }
         if ( needSpill(vertices, interferences) ){
           String vertexToSpill = maxDegreeVertex(vertices, interferences);
-          deleteInterf(interferences, vertexToSpill);
+          interferences=deleteInterf(interferences, vertexToSpill);
           vertices.remove( getIndex(vertices, vertexToSpill) ); // Delete the vertexToSpill of the list of vertices
         }
       }
@@ -286,7 +284,7 @@ public class InterfGraph {
 
         interferencesVertex.add(splittedEdge[1]);
       }  
-      else if (splittedEdge[1].equals(vertex)) { 
+      else if (splittedEdge[1] == vertex) { 
 
         interferencesVertex.add(splittedEdge[0]);
       }  
@@ -307,7 +305,7 @@ public class InterfGraph {
 
 	   
 	   for(int i=0; i< vertexToSpill.size(); i++){ //Initialize all the vertices to spill at NULL
-		   result.add(vertexToSpill.get(i)+"-"+"spill");
+		   result.add(vertexToSpill.get(i)+" - "+"spill");
 	   }
 	   
 	 
@@ -324,7 +322,7 @@ public class InterfGraph {
             colorToUse.remove(getColor(result, interferences.get(k)));
           }
       }
-      result.add(vertexToColor.get(j) + "-" + colorToUse.get(0));
+      result.add(vertexToColor.get(j) + " - " + colorToUse.get(0));
        
 	   }
 		return result;
