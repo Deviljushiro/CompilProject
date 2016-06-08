@@ -235,6 +235,31 @@ class InterfGraph {
 	   return listColors;
    }  
 
+
+     /**
+      * @param ArrayList<String> coloredVertices, list of vertices and their related color
+      * @param String vertex, vertex that we want to know if it's colored 
+      * @return boolean found, true if a vertex is in colored vertices 
+      **/
+      boolean isColored (ArrayList<String> coloredVertices, String vertex){
+        boolean found = false;
+        int i=0;
+        while(!(found) && (i < coloredVertices.size()) ){
+
+          String [] splittedEdge = coloredVertices.get(i).split("-"); //Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
+    
+          if (splittedEdge[0] == vertex) { //If the parameter vertex is in the edge then degree+1
+
+              found=true;
+            }
+
+          i++;
+        }
+
+        return found;
+      }
+       
+
   
   /**
    * @param ArrayList<String> vertexToColor, list for compare with the vertices list og the InterGraph
@@ -246,13 +271,15 @@ class InterfGraph {
 	   ArrayList<String> result = new ArrayList<String>();
 	   
 	   for(int i=0; i<= vertexToSpill.size(); i++){ //Initialize all the vertices to spill at NULL
-		   result.add(vertexToSpill.get(i)+" - "+"NULL");
+		   result.add(vertexToSpill.get(i)+" - "+"spill");
 	   }
 	   
 	   result.add(vertexToColor.get(0)+" - "+colors.get(0)); //Initialize the first vertex with the first color
 	   
-	   for(int j=1; j<= vertexToSpill.size(); j++){
-		   
+	   for(int j=1; j<= vertexToColor.size(); j++){
+       if( !(isColored(result, vertexToColor.get(i))) ){
+
+       } 
 	   }
 		return result;
    }
