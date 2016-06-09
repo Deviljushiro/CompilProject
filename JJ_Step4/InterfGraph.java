@@ -34,16 +34,22 @@ public class InterfGraph {
   * @param String vertex : the vertex where we want to know its index
   * @return int, the index of the vertex in parameter
   **/
-  public String getIndex(ArrayList<String> vertices, String vertex) {
+  public int getIndex(ArrayList<String> vertices, String vertex) {
+
     boolean flag = true;
     int i=0;
+
     while(flag && (i<vertices.size()) ){
-      if (vertices.get(i) == vertex){
+      if (vertices.get(i).equals(vertex)){
         flag = false;
         i++;
       }
+      else{
+        i++;
+      } 
     }
-    return vertices.get(i-1);
+    System.out.println("get degree : " + (i-1) );
+    return i-1;
   }
 
   /**
@@ -98,13 +104,14 @@ public class InterfGraph {
   
 	  int min = this.getDegree(interferences, vertices.get(0) ); //Initialize the first degree's vertex as the min
 	
-	  for (int i=1;i<interferences.size();i++) {
+	  for (int i=1;i<vertices.size();i++) {
 	
 	    if (getDegree(interferences, vertices.get(i) ) < min) {
 	
 	      min = getDegree(interferences, vertices.get(i) ); //This is the new minimum degree  
 	    }
 	  }
+    System.out.println("min degree : " + min);
 	  return min;
   }
 
@@ -121,8 +128,8 @@ public class InterfGraph {
         String [] splittedEdge = interferences.get(i).split("-"); //Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
     
         if ((splittedEdge[1].equals(vertex)||(splittedEdge[1].equals(vertex)))) { //If the vertex is in the edge then remove this link of interferences
-          System.out.println("1");
           interferences.remove(i);
+          System.out.println("deleteInterf : " + interferences);
         } 
       }   
       return interferences;
@@ -141,6 +148,7 @@ public class InterfGraph {
     while ( (!exist) && (i<vertices.size()) ){
       if ( getDegree(interferences, vertices.get(i) ) <= this.degree ){
         exist = true;
+        System.out.println("existVertice Ok");
       }
     }
     return exist;
@@ -153,6 +161,7 @@ public class InterfGraph {
   * @return boolean, True if a vertex needs to be spilled, False else or if the graph is empty
   **/
   public boolean needSpill (ArrayList<String> vertices, ArrayList<String> interferences) {
+
     return ( !(vertices.isEmpty()) && minDegree(vertices, interferences)>this.degree );
   }
 
@@ -182,10 +191,16 @@ public class InterfGraph {
         while( existVerticeOk(vertices, interferences) ){
 
           if( getDegree(interferences, vertices.get(i) ) < this.degree ){
+
             vertexToColor.add(vertices.get(i)); // Add the vertex to them to color 
             interferences=deleteInterf(interferences, vertices.get(i)); // Delete all the interferences who had a link with the vertex
-            vertices.remove( getIndex(vertices, vertices.get(i)) ); // Delete the vertex of the list of vertices
+            System.out.println("apres delete, avant remove");
 
+            int index = getIndex(vertices, vertices.get(i) );
+            System.out.println("index to delete : " + index);
+
+            vertices.remove( index ); // Delete the vertex of the list of vertices
+            System.out.println("apres remove");
           }
           else{
             i++;
