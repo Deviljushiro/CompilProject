@@ -65,9 +65,9 @@ public class InterfGraph {
 
 		  String [] splittedEdge = interferences.get(i).split("-");	//Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
 		
-      		if ((splittedEdge[0].equals(vertex))||(splittedEdge[1].equals(vertex))) {	//If the parameter vertex is in the edge then degree+1
-			     degree++;
-		      } 
+  		if ((splittedEdge[0].equals(vertex))||(splittedEdge[1].equals(vertex))) {	//If the parameter vertex is in the edge then degree+1
+	     degree++;
+      } 
     }
 	return degree;
   }
@@ -122,15 +122,20 @@ public class InterfGraph {
   * @param String vertex, vertex that we have to delete it interferences
   **/
   public ArrayList<String> deleteInterf (ArrayList<String> interferences, String vertex){
+    System.out.println("dans deleteInterf");
 
-      for (int i=0;i<interferences.size();i++) {
+      ArrayList<String> inter = interferences;
+      int i=0;
+      while ( i<interferences.size() ) {
 
         String [] splittedEdge = interferences.get(i).split("-"); //Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
     
-        if ((splittedEdge[1].equals(vertex)||(splittedEdge[1].equals(vertex)))) { //If the vertex is in the edge then remove this link of interferences
+        if ( (splittedEdge[0].equals(vertex)) || (splittedEdge[1].equals(vertex)) ) { //If the vertex is in the edge then remove this link of interferences
           interferences.remove(i);
-          System.out.println("deleteInterf : " + interferences);
         } 
+        else{
+          i++;
+        }
       }   
       return interferences;
   }
@@ -144,13 +149,12 @@ public class InterfGraph {
   public boolean existVerticeOk (ArrayList<String> vertices, ArrayList<String> interferences){
     boolean exist = false;
     int i=0;
-
-    while ( (!exist) && (i<vertices.size()) ){
-      if ( getDegree(interferences, vertices.get(i) ) <= this.degree ){
-        exist = true;
-        System.out.println("existVertice Ok");
+      while ( (!exist) && (i<vertices.size()) ){
+        if ( getDegree(interferences, vertices.get(i) ) < this.degree ){
+          exist = true;
+          System.out.println("existVertice Ok");
+        }
       }
-    }
     return exist;
   }
 
@@ -162,7 +166,13 @@ public class InterfGraph {
   **/
   public boolean needSpill (ArrayList<String> vertices, ArrayList<String> interferences) {
 
-    return ( !(vertices.isEmpty()) && minDegree(vertices, interferences)>this.degree );
+    System.out.println("dans neddspill ");
+    boolean needSpill = false;
+    if((minDegree(vertices, interferences)>this.degree) && !(vertices.isEmpty()) ) {
+      needSpill=true;
+    }
+    System.out.println("neddspill : " + needSpill);
+    return needSpill;
   }
 
 
@@ -188,32 +198,37 @@ public class InterfGraph {
 
       while( !(vertices.isEmpty()) ){
         int i=0;
-        while( existVerticeOk(vertices, interferences) ){
+        while( existVerticeOk(vertices, interferences) && !(vertices.isEmpty()) ){
 
           if( getDegree(interferences, vertices.get(i) ) < this.degree ){
 
             vertexToColor.add(vertices.get(i)); // Add the vertex to them to color 
             interferences=deleteInterf(interferences, vertices.get(i)); // Delete all the interferences who had a link with the vertex
-            System.out.println("apres delete, avant remove");
+            System.out.println("vertexToColor : " + vertexToColor) ;
+
+            System.out.println("interferences : " + interferences) ;
 
             int index = getIndex(vertices, vertices.get(i) );
-            System.out.println("index to delete : " + index);
 
             vertices.remove( index ); // Delete the vertex of the list of vertices
-            System.out.println("apres remove");
+            System.out.println("vertices : " + vertices);
           }
           else{
             i++;
           }
+          
         }
-        if ( needSpill(vertices, interferences) ){
+
+      if ( needSpill(vertices, interferences) && !(vertices.isEmpty()) ){
+          System.out.println("dans needToSpill");
           String vertexToSpill = maxDegreeVertex(vertices, interferences);
           interferences=deleteInterf(interferences, vertexToSpill);
           vertices.remove( getIndex(vertices, vertexToSpill) ); // Delete the vertexToSpill of the list of vertices
-        }
+          
       }
+    }
 
-      return vertexToColor;
+    return vertexToColor;
   }
 
   /**
@@ -295,11 +310,11 @@ public class InterfGraph {
 
       String [] splittedEdge = this.interf.get(i).split("-"); //Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
       
-      if (splittedEdge[0] == vertex) { 
+      if (splittedEdge[0].equals(vertex)) { 
 
         interferencesVertex.add(splittedEdge[1]);
       }  
-      else if (splittedEdge[1] == vertex) { 
+      else if (splittedEdge[1].equals(vertex)) { 
 
         interferencesVertex.add(splittedEdge[0]);
       }  
@@ -351,28 +366,28 @@ public class InterfGraph {
      ArrayList<String> p1 = new ArrayList<String>();
      ArrayList<String> c1 = new ArrayList<String>();
 
-     v1.add("1");
-     v1.add("2");
-     v1.add("3");
-     v1.add("4");
-     v1.add("5");
-     v1.add("6");
-     v1.add("7");
+     v1.add("u");
+     v1.add("v");
+     v1.add("x");
+     v1.add("y");
+     v1.add("z");
+     v1.add("w");
+     v1.add("p");
 
-     i1.add("1-3");
-     i1.add("1-2");
-     i1.add("2-3");
-     i1.add("2-4");
-     i1.add("2-5");
-     i1.add("2-6");
-     i1.add("3-4");
-     i1.add("5-7");
-     i1.add("4-5");
+     i1.add("u-x");
+     i1.add("u-v");
+     i1.add("v-x");
+     i1.add("v-y");
+     i1.add("v-z");
+     i1.add("v-w");
+     i1.add("x-y");
+     i1.add("z-p");
+     i1.add("y-z");
      
-     c1.add("c1");
-     c1.add("c2");
+     c1.add("bleu");
+     c1.add("jaune");
 
-     InterfGraph g1 = new InterfGraph ( v1, i1, p1, 2);
+     InterfGraph g1 = new InterfGraph ( v1, i1, p1, 3);
 
      ArrayList<String> vc1 = g1.toColor();
      ArrayList<String> vs1 = g1.toSpill(vc1);
