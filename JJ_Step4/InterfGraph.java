@@ -423,7 +423,7 @@ public class InterfGraph {
      c1.add("bleu");
      c1.add("jaune");
 
-     InterfGraph g1 = new InterfGraph ( v1, i1, p1, 3);
+     InterfGraph g1 = new InterfGraph ( v1, i1, p1, 2);
      System.out.println("main1 : " + v1 );
      ArrayList<String> vc1 = g1.toColor();
      System.out.println("main2 : " + v1 );
