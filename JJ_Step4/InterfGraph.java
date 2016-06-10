@@ -10,6 +10,7 @@ public class InterfGraph {
   private ArrayList<String> pref;     //List of preferences between vertices (pattern : "vertex1-vertex2")
   private int degree; //The degree of the InternGraph to respect
 
+
   /**Constructor**/
   public InterfGraph (ArrayList<String> v, ArrayList<String> i, ArrayList<String> p, int k) {
 
@@ -29,6 +30,7 @@ public class InterfGraph {
   	return this.vertices.get(index);
   }
 
+
   /**
   * @param ArrayList<String> interferences, list of interferences for searching
   * @param String vertex : the vertex where we want to know its index
@@ -39,17 +41,21 @@ public class InterfGraph {
     boolean flag = true;
     int i=0;
 
-    while(flag && (i<vertices.size()) ){
+    while(flag && (i<vertices.size()) ){	//If it's not found or if this the list's end
+
       if (vertices.get(i).equals(vertex)){
+
         flag = false;
         i++;
       }
       else{
+
         i++;
       } 
     }
-    return i-1;
+    return i-1;	//Return the index
   }
+
 
   /**
   * @param ArrayList<String> interferences, list of interferences for searching
@@ -147,8 +153,10 @@ public class InterfGraph {
     int i=0;
     int deg = this.degree;
 
-      while ( (!exist) && (i<vertices.size()) && !(vertices.isEmpty())){
+      while ( (!exist) && (i<vertices.size()) && !(vertices.isEmpty())){	//If it's not empty or not in the list's end or if we didnt already find something
+
         if ( getDegree(interferences, vertices.get(i) ) < deg ){
+
           exist = true;
         }
         i++;
@@ -165,11 +173,14 @@ public class InterfGraph {
   public boolean needSpill (ArrayList<String> vertices, ArrayList<String> interferences) {
 
     boolean needSpill = false;
-    if( (minDegree(vertices, interferences) >= this.degree) && !(vertices.isEmpty()) ) {
+
+    if( (minDegree(vertices, interferences) >= this.degree) && !(vertices.isEmpty()) ) {	//If the minimum degree of the actual graphe is superior to the number of colors
+
       needSpill=true;
     }
     return needSpill;
   }
+
 
 
   /**
@@ -178,8 +189,11 @@ public class InterfGraph {
   * @return boolean, if the vertex degree's is inferior to the degree k, return true, else false 
   **/
   public boolean notDegreeInf(ArrayList<String> interferences, String vertex){
+
     return (getDegree(interferences, vertex) > this.degree);
+
   }
+
 
 
   /**
@@ -192,32 +206,34 @@ public class InterfGraph {
     ArrayList<String> interferences = new ArrayList<String>(); //Copy of the initial list of interferences 
     ArrayList<String> allVertices = new ArrayList<String>(); //Copy of the initial list of vertices
     
-    for( int k = 0; k < this.vertices.size()  ; k++){
+
+    for( int k = 0; k < this.vertices.size()  ; k++){	//CLONE ALL THE VERTICES 
       allVertices.add(this.vertices.get(k));
     }
 
-    for( int l = 0; l<this.interf.size(); l++){
+    for( int l = 0; l<this.interf.size(); l++){		//CLONE ALL THE INTERFERENCES
       interferences.add(this.interf.get(l));
     }
 
-    int deg = this.degree;
+    int deg = this.degree;	//CLONE THE NUMBER OF COLORS
     
   
       while( !(allVertices.isEmpty()) ){
+
         int i=0;
-        while( !(allVertices.isEmpty()) && existVerticeOk(allVertices, interferences) ){
+
+        while( !(allVertices.isEmpty()) && existVerticeOk(allVertices, interferences) && i<allVertices.size()){
+
           if( getDegree(interferences, allVertices.get(i) ) < deg ){
 
             vertexToColor.add(allVertices.get(i)); // Add the vertex to them to color 
-            System.out.println("vertexToColor : " + vertexToColor) ;
 
             interferences=deleteInterf(interferences, allVertices.get(i)); // Delete all the interferences who had a link with the vertex
-            System.out.println("interferences : " + interferences) ;
 
             int index = getIndex(allVertices, allVertices.get(i) );
             allVertices.remove( index ); // Delete the vertex of the list of vertices
-            System.out.println("vertices : " + allVertices);
           }
+
           else{
             i++;
           }
@@ -225,6 +241,7 @@ public class InterfGraph {
         }
 
       if ( !(allVertices.isEmpty()) && needSpill(allVertices, interferences) ){
+
           String vertexToSpill = maxDegreeVertex(allVertices, interferences);
           interferences=deleteInterf(interferences, vertexToSpill);
           allVertices.remove( getIndex(allVertices, vertexToSpill) ); // Delete the vertexToSpill of the list of vertices
@@ -233,58 +250,28 @@ public class InterfGraph {
     return vertexToColor;
   }
 
+
+
   /**
   * @param  ArrayList<String> vertexToColor, list for compare with the vertices list og the InterGraph
   * @return ArrayList<String> vertexToSpill, the list of vertices to spill
   **/
   public ArrayList<String> toSpill (ArrayList<String> vertexToColor, ArrayList<String> allVertices) {
 
-
-    ArrayList<String> vertexToSpill = allVertices; //List to return, with all the vertices to spill, initialize with a copy of the vertices
-    ArrayList<String> comparateur = allVertices;
-    System.out.println("allVertices" + vertexToSpill);
-
-  System.out.println("compare" + comparateur);
-    
-    /*int k = 0;
-
-    for(int i=0; i<comparateur.size(); i++){
-      for(int j=0; j<vertexToColor.size(); j++){
-        if (comparateur.get(i).equals( vertexToColor.get(j) ) ){
-          vertexToSpill.remove(k);
-        }
-        else{
-          k++;
-        }
-      }
-    }*/
+  	ArrayList<String> vertexToSpill = new ArrayList<String>();	//Initialize the result
 
 
-    int i=0;
-    while (i < vertexToSpill.size() ) {
-      String vts = vertexToSpill.get(i);
+    for (int i=0;i<allVertices.size();i++) {	//If the vertex is not in the "to be colored" vertices, then add it to the "to be spilled" vertices
 
-      int j=0;
-      boolean flag = false;
-      while ( !(flag) && (j<vertexToColor.size())){
+    	if (!(vertexToColor.contains(allVertices.get(i)))) {
 
-        String vertex = vertexToColor.get(j);
-
-        if (vts.equals(vertex) ){ // If the vertex is in the list of vertexToColor, delete it from vertexToDelete
-          vertexToSpill.remove(i);
-          flag = true;
-        }
-        else{
-          j++;
-        }
-
-      }
-      i++;
+    		vertexToSpill.add(allVertices.get(i));
+    	}
     }
-    System.out.println("vertexToSpill : " + vertexToSpill);
     return vertexToSpill;
   }
   
+
   /**
    * @param String vertex, vertex
    * @param ArrayList<String> coloredVertices, list
@@ -299,11 +286,15 @@ public class InterfGraph {
       while(!(found) && (i < coloredVertices.size()) ){
 
         String [] splittedEdge = coloredVertices.get(i).split("-"); //Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
-      
-        if (splittedEdge[0].equals(vertex)) { 
+
+        if (splittedEdge[0].equals(vertex)) { 	//If the left part (the vertex) is the right one
 
           found=true;
-          color = splittedEdge[1];
+          color = splittedEdge[1];	//Add the right part (the color) the result
+        }
+
+        else {
+        	i++;
         }
       }  
       return color;
@@ -318,18 +309,18 @@ public class InterfGraph {
   public boolean isColored (ArrayList<String> coloredVertices, String vertex){
     boolean found = false;
     int i=0;
+    
     while(!(found) && (i < coloredVertices.size()) ){
 
       String [] splittedEdge = coloredVertices.get(i).split("-"); //Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
 
-      if (splittedEdge[0].equals(vertex)) { //If the parameter vertex is in the edge then degree+1
+      if ((splittedEdge[0].equals(vertex))&&(!(splittedEdge[1]).equals("spill"))) { //If the parameter vertex is in the edge then degree+1
 
           found=true;
         }
 
       i++;
     }
-
     return found;
   }
 
@@ -346,13 +337,13 @@ public class InterfGraph {
 
       String [] splittedEdge = this.interf.get(i).split("-"); //Split the "vertex1-vertex2" in splittedEdge[vertex1,vertex2]
       
-      if (splittedEdge[0].equals(vertex)) { 
+      if (splittedEdge[0].equals(vertex)) { 	//If the left part of the interference is the vertex
 
-        interferencesVertex.add(splittedEdge[1]);
+        interferencesVertex.add(splittedEdge[1]);	//Then Add the other to the list
       }  
-      else if (splittedEdge[1].equals(vertex)) { 
+      else if (splittedEdge[1].equals(vertex)) { 	//If the right part of the interference is the vertex
 
-        interferencesVertex.add(splittedEdge[0]);
+        interferencesVertex.add(splittedEdge[0]);	//Then Add the other to the list
       }  
     }
     return interferencesVertex; 
@@ -370,27 +361,53 @@ public class InterfGraph {
 	   ArrayList<String> result = new ArrayList<String>();
 
 	   
-	   for(int i=0; i< vertexToSpill.size(); i++){ //Initialize all the vertices to spill at NULL
-		   result.add(vertexToSpill.get(i)+" - "+"spill");
+	   for(int i=0; i< vertexToSpill.size(); i++){ //Initialize all the vertices to spill at "spill" color
+
+		   result.add(vertexToSpill.get(i)+"-"+"spill");
 	   }
 	   
-	 
+	
 	   for(int j=0; j< vertexToColor.size(); j++){ //Loop in the colored vertices
 
-      ArrayList<String> colorToUse = colors; //Copy list of colors
+	      ArrayList<String> colorToUse = new ArrayList<String>(); 
 
-      ArrayList<String> interferences = interferencesVertex(vertexToColor.get(j));
-      
-      for(int k=0; k<interferences.size(); k++){//Loop in the interferences of this vertex
+	      for( int c = 0; c < colors.size()  ; c++){	//CLONE THE COLOR'S LIST
 
-          if (!(isColored(result, interferences.get(k)))) {
+	      	colorToUse.add(colors.get(c));
+	      }
 
-            colorToUse.remove(getColor(result, interferences.get(k)));
+
+
+	      ArrayList<String> interferences = interferencesVertex(vertexToColor.get(j));	//Create a list with all the vertex's interferences
+	      
+	      for(int k=0; k<interferences.size(); k++){//Loop in the interferences of this vertex
+
+	          if (isColored(result, interferences.get(k))) {
+
+	            colorToUse.remove(getColor(result, interferences.get(k)));
+	          }
           }
-      }
-      result.add(vertexToColor.get(j) + " - " + colorToUse.get(0));
-       
-	   }
+
+	      boolean colorfound = false;	//Basic flag boolean
+	      int colorIndex = 0;	//Initialize the value of the loop's index
+
+	      while (!(colorfound)) {	//Take the first color in the cloned list to color the vertex
+
+		      if (colorToUse.get(colorIndex)!= null){	
+
+		      	colorfound = true;
+		      }
+
+		      else {
+		      	colorIndex++;
+		      }
+
+	  	  }
+	       
+	  	  result.add(vertexToColor.get(j)+"-"+colorToUse.get(colorIndex));	//Color the vertex
+
+	    }
+
 		return result;
    }
 
@@ -419,16 +436,17 @@ public class InterfGraph {
      i1.add("x-y");
      i1.add("z-p");
      i1.add("y-z");
+     i1.add("w-z");
      
      c1.add("bleu");
      c1.add("jaune");
 
-     InterfGraph g1 = new InterfGraph ( v1, i1, p1, 2);
-     System.out.println("main1 : " + v1 );
-     ArrayList<String> vc1 = g1.toColor();
-     System.out.println("main2 : " + v1 );
-     ArrayList<String> vs1 = g1.toSpill(vc1, v1);
-     ArrayList<String> result = g1.color(vc1,vs1,c1);
+     InterfGraph g1 = new InterfGraph ( v1, i1, p1, c1.size());
+
+     ArrayList<String> vc1 = g1.toColor();	//Create the "to be colored" list
+     ArrayList<String> vs1 = g1.toSpill(vc1, v1);	//Create the "to be spilled" list
+     ArrayList<String> result = g1.color(vc1,vs1,c1);	//Color the graph
+     System.out.println("COLORED GRAPH :");
      System.out.println(result);
    }
 
