@@ -17,4 +17,4 @@
 3. **RTL.java** : Add the teacher's RTL file
 
 ##STEP 4
-**AlgoColor.java** : Le choix crucial que doit faire Julia : Matrice d'adjacence ou Matrice d'incidence ? 
+**InterfGraph** : Class containing all the function and implementation about a graph of interferences that we want to color
